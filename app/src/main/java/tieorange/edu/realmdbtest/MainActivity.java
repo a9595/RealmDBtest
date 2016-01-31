@@ -5,11 +5,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Date;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 public class MainActivity extends AppCompatActivity {
+
+    private Realm mMyRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +30,51 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Entry has been created", Snackbar.LENGTH_SHORT)
+                        .setAction("Create", null).show();
+
             }
         });
+
+
+        mMyRealm = Realm.getInstance(this);
+        createRealmReadingEntry();
+
+        // Writing Queries
+        RealmResults<ReadingEntry> results =
+                mMyRealm.where(ReadingEntry.class).findAll();
+        for (ReadingEntry entry : results) {
+            Log.d("MY", String.valueOf(entry.getCurrentPage()));
+        }
+
+        // HOW TO CREATE YOUR OWN REALM FILE?
+//        Realm myOtherRealm = Realm.getInstance(
+//                new RealmConfiguration.Builder(this)
+//                        .name("myOtherRealm.realm")
+//                        .build()
+//        );
+    }
+
+    private void createRealmReadingEntry() {
+        mMyRealm.beginTransaction();
+
+        // Create an object
+        ReadingEntry readingEntry = mMyRealm.createObject(ReadingEntry.class);
+
+        readingEntry.setCurrentPage(64);
+        readingEntry.setDate(new Date());
+
+        mMyRealm.commitTransaction();
+
+//
+//        // or if we want to use a constructor use realm.CopyToRealm(readingEntry)
+//        ReadingEntry readingEntry2 = new ReadingEntry();
+//        readingEntry2.setDate(new Date());
+//        readingEntry2.setCurrentPage(78);
+//
+//        mMyRealm.beginTransaction();
+//        ReadingEntry copyOfReadingEntry = mMyRealm.copyToRealm(readingEntry2);
+//        mMyRealm.commitTransaction();
     }
 
     @Override
