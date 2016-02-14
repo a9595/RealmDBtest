@@ -1,4 +1,4 @@
-package tieorange.edu.realmdbtest;
+package tieorange.edu.realmdbtest.POJO;
 
 import java.util.Date;
 
@@ -29,4 +29,6 @@ public class ReadingEntry extends RealmObject {
     public void setDate(Date date) {
         this.date = date;
     }
+
+
 }
