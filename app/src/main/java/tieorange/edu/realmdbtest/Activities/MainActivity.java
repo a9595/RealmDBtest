@@ -28,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private NumberPicker mUiNumberCurrentPage;
     private View mView;
 
+    public Realm getMyRealm() {
+        return mMyRealm;
+    }
+
+    public BookGoal getBookGoal() {
+        return mBookGoal;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             mBookGoal = bookGoalRealmResults.get(0);
             setupFAB();
             setupNumberPicker();
-            getAllReadingEntries();
+            printAllReadingEntries();
         } else { // Setup book settings (Welcome activity)
             Intent intent = new Intent(getApplicationContext(), AddBookActivity.class);
             startActivity(intent);
@@ -59,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     // prints reading entries to log
-    private void getAllReadingEntries() {
+    private void printAllReadingEntries() {
         // Reading entries from Realm
         RealmResults<ReadingEntry> readingEntryRealmResults =
                 mMyRealm.where(ReadingEntry.class).findAll();
@@ -72,6 +80,13 @@ public class MainActivity extends AppCompatActivity {
         // set number picket to last page user read
         mUiNumberCurrentPage.setValue(readingEntryRealmResults.last().getCurrentPage());
 
+    }
+
+    public RealmResults<ReadingEntry> getReadingEntries(){
+        RealmResults<ReadingEntry> readingEntryRealmResults =
+                mMyRealm.where(ReadingEntry.class).findAll();
+
+        return readingEntryRealmResults;
     }
 
     private void setupNumberPicker() {
@@ -107,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         int currentPage = mUiNumberCurrentPage.getValue();
         if (currentPage > 0) {
             createRealmReadingEntry(currentPage);
-            getAllReadingEntries();
+            printAllReadingEntries();
 
 
             Snackbar.make(view, "Зміни успішно збережено :)", Snackbar.LENGTH_LONG).show();

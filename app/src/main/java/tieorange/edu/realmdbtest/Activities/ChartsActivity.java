@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import io.realm.Realm;
+import io.realm.RealmResults;
+import tieorange.edu.realmdbtest.POJO.BookGoal;
 import tieorange.edu.realmdbtest.R;
 
 public class ChartsActivity extends AppCompatActivity {
@@ -23,6 +26,13 @@ public class ChartsActivity extends AppCompatActivity {
     TabLayout muiTabLayout;
     @Bind(R.id.charts_viewpager)
     ViewPager muiViewPager;
+
+    Realm mMyRealm;
+    BookGoal mBookGoal;
+
+    public BookGoal getBookGoal() {
+        return mBookGoal;
+    }
 
     private int[] tabIcons = {
             R.drawable.ic_charts,
@@ -39,6 +49,16 @@ public class ChartsActivity extends AppCompatActivity {
         setupViewPager(muiViewPager);
         //setupTabIcons();
         muiTabLayout.setupWithViewPager(muiViewPager);
+
+
+        // Realm:
+        mMyRealm = Realm.getInstance(this);
+
+        RealmResults<BookGoal> bookGoalRealmResults = mMyRealm.where(BookGoal.class).findAll();
+
+        if (bookGoalRealmResults.size() > 0) {
+            mBookGoal = bookGoalRealmResults.get(0);
+        }
     }
 
     private void setupTabIcons() {

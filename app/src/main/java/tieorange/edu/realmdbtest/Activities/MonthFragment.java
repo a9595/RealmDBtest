@@ -1,8 +1,10 @@
 package tieorange.edu.realmdbtest.Activities;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +31,6 @@ import tieorange.edu.realmdbtest.R;
  * A simple {@link Fragment} subclass.
  */
 public class MonthFragment extends Fragment {
-
-
     private BarChart mUiBarChart;
     private View mView;
     Random random = new Random();
@@ -40,15 +40,11 @@ public class MonthFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_month, container, false);
         // Inflate the layout for this fragment
-
-
-        //setupBarChart();
 
         setupLineChart();
         return mView;
@@ -107,7 +103,10 @@ public class MonthFragment extends Fragment {
         mUiLineChart.setDescription("Per month");
         mUiLineChart.animateXY(5000, 5000);
 
-        LimitLine limitLine = new LimitLine(10f); // LIMIT LINE
+        // set LIMIT LINE
+        LimitLine limitLine = new LimitLine(25f); // LIMIT LINE
+        limitLine.setLineColor(Color.GREEN);
+        limitLine.setLineWidth(2f);
         final YAxis axisLeft = mUiLineChart.getAxisLeft();
         axisLeft.addLimitLine(limitLine);
 
