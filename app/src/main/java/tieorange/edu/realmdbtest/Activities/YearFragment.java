@@ -49,7 +49,7 @@ public class YearFragment extends Fragment {
         mUiBarChart = (BarChart) mView.findViewById(R.id.year_bar_chart);
 
         ArrayList<BarEntry> entries = new ArrayList<>();
-        ArrayList<String> labels = new ArrayList<String>();
+        ArrayList<String> labels = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
             int pagesCount = mRandom.nextInt(200 - 20) + 20;
             entries.add(new BarEntry(pagesCount, i));

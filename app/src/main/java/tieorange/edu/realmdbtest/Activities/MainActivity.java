@@ -28,14 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private NumberPicker mUiNumberCurrentPage;
     private View mView;
 
-    public Realm getMyRealm() {
-        return mMyRealm;
-    }
-
-    public BookGoal getBookGoal() {
-        return mBookGoal;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +37,9 @@ public class MainActivity extends AppCompatActivity {
         mMyRealm = Realm.getInstance(this); // setup Realm
         mView = findViewById(android.R.id.content);
 
-
         // Check if the book is added (goal, pagesCount)
         RealmResults<BookGoal> bookGoalRealmResults =
                 mMyRealm.where(BookGoal.class).findAll();
-
 
         // Trying to get book settings
         if (bookGoalRealmResults.size() != 0) {
@@ -61,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), AddBookActivity.class);
             startActivity(intent);
         }
-
-
     }
 
 
@@ -79,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         // set number picket to last page user read
         mUiNumberCurrentPage.setValue(readingEntryRealmResults.last().getCurrentPage());
-
     }
 
     public RealmResults<ReadingEntry> getReadingEntries(){
@@ -120,16 +107,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void SaveCurrentPagOnClick(View view) {
         int currentPage = mUiNumberCurrentPage.getValue();
-        if (currentPage > 0) {
+        if (currentPage > 0) { // TODO: check if page is bigger than last save page
             createRealmReadingEntry(currentPage);
             printAllReadingEntries();
 
-
             Snackbar.make(view, "Зміни успішно збережено :)", Snackbar.LENGTH_LONG).show();
         }
-
     }
 
+
+    // Put the reading entry to DB
     private void createRealmReadingEntry(int currentPage) {
         mMyRealm.beginTransaction();
 
@@ -163,6 +150,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public Realm getMyRealm() {
+        return mMyRealm;
+    }
+
+    public BookGoal getBookGoal() {
+        return mBookGoal;
     }
 
 }
