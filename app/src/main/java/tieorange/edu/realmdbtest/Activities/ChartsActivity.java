@@ -1,6 +1,8 @@
 package tieorange.edu.realmdbtest.Activities;
 
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,7 @@ import io.realm.RealmResults;
 import tieorange.edu.realmdbtest.POJO.BookGoal;
 import tieorange.edu.realmdbtest.R;
 
-public class ChartsActivity extends AppCompatActivity {
+public class ChartsActivity extends AppCompatActivity implements AddReadingEntryDialog.AddReadingEntryDialogListener {
 
     @Bind(R.id.charts_toolbar)
     Toolbar mUiToolbar;
@@ -28,6 +31,7 @@ public class ChartsActivity extends AppCompatActivity {
     TabLayout mUiTabLayout;
     @Bind(R.id.charts_viewpager)
     ViewPager mUiViewPager;
+    View mUiView;
 
     Realm mMyRealm;
     BookGoal mBookGoal;
@@ -41,6 +45,8 @@ public class ChartsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
+
+        mUiView = (View) findViewById(android.R.id.content); // get's the root view of activity
         mUiViewPager = (ViewPager) findViewById(R.id.charts_viewpager);
         mUiTabLayout = (TabLayout) findViewById(R.id.charts_tab_layout);
 
@@ -77,20 +83,34 @@ public class ChartsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.action_add_reading_entry){
+        if (id == R.id.action_add_reading_entry) {
             // TODO: show dialog
+            showEntryDialog();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showEntryDialog() {
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+        AddReadingEntryDialog dialogFragment = new AddReadingEntryDialog();
+        dialogFragment.show(fragmentManager, "Sample Fragment");
     }
 
     public BookGoal getBookGoal() {
         return mBookGoal;
     }
 
+    @Override
+    public void onFinishEntryDialog(int currentPage) {
+        String message = "Current page = " + currentPage;
+        Snackbar.make(mUiView, message, Snackbar.LENGTH_LONG)
+                .setAction("Cancel", null)
+                .show();
+    }
 
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
