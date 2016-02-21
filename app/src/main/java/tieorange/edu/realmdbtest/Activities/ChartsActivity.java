@@ -2,7 +2,6 @@ package tieorange.edu.realmdbtest.Activities;
 
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,7 +22,7 @@ import io.realm.RealmResults;
 import tieorange.edu.realmdbtest.POJO.BookGoal;
 import tieorange.edu.realmdbtest.R;
 
-public class ChartsActivity extends AppCompatActivity implements AddReadingEntryDialog.AddReadingEntryDialogListener {
+public class ChartsActivity extends AppCompatActivity implements AddReadingEntryDialogFragment.AddReadingEntryDialogListener {
 
     @Bind(R.id.charts_toolbar)
     Toolbar mUiToolbar;
@@ -56,9 +55,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
 
         // Realm:
         mMyRealm = Realm.getInstance(this);
-
         RealmResults<BookGoal> bookGoalRealmResults = mMyRealm.where(BookGoal.class).findAll();
-
         if (bookGoalRealmResults.size() > 0) {
             mBookGoal = bookGoalRealmResults.get(0);
         }
@@ -96,7 +93,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
 
     private void showEntryDialog() {
         android.app.FragmentManager fragmentManager = getFragmentManager();
-        AddReadingEntryDialog dialogFragment = new AddReadingEntryDialog();
+        AddReadingEntryDialogFragment dialogFragment = AddReadingEntryDialogFragment.newInstance(mBookGoal.getPagesCount());
         dialogFragment.show(fragmentManager, "Sample Fragment");
     }
 

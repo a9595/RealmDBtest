@@ -5,10 +5,10 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="What's your current page?" />
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/what_s_your_current_page" />-->
 
     <NumberPicker
         android:id="@+id/dialog_entry_current_page"

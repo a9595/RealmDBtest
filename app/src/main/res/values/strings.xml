@@ -4,4 +4,6 @@
     <string name="title_activity_add_book">AddBook</string>
     <string name="ok">OK</string>
     <string name="cancel">cancel</string>
+    <string name="what_s_your_current_page">What\'s your current page?</string>
+    <string name="what_s_current_page">На котрій Ви зараз сторінці?</string>
 </resources>
