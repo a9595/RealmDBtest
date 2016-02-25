@@ -76,7 +76,7 @@ public class AddBookActivity extends AppCompatActivity {
             createRealmReadingEntry(pagesCount, goal);
         }
 
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ChartsActivity.class);
         startActivity(intent);
     }
 }

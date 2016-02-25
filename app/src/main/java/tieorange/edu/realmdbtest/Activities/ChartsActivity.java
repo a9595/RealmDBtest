@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -125,14 +126,37 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         return mBookGoal;
     }
 
+    // User added reading entry from dialog
     @Override
     public void onFinishEntryDialog(int currentPage) {
         String message = "Current page = " + currentPage;
         Snackbar.make(mUiView, message, Snackbar.LENGTH_LONG)
                 .setAction("Cancel", null)
                 .show();
+
+        createRealmReadingEntry(currentPage);
     }
 
+    // Put the reading entry to DB
+    private void createRealmReadingEntry(int currentPage) {
+        mMyRealm.beginTransaction();
+
+        // Create an object
+        ReadingEntry readingEntry = mMyRealm.createObject(ReadingEntry.class);
+
+        readingEntry.setCurrentPage(currentPage);
+        readingEntry.setDate(new Date());
+
+        mMyRealm.commitTransaction();
+    }
+
+
+    public RealmResults<ReadingEntry> getReadingEntries2() {
+        RealmResults<ReadingEntry> readingEntryRealmResults =
+                mMyRealm.where(ReadingEntry.class).findAll();
+
+        return readingEntryRealmResults;
+    }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
