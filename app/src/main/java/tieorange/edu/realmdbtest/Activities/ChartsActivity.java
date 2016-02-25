@@ -1,5 +1,6 @@
 package tieorange.edu.realmdbtest.Activities;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +22,8 @@ import butterknife.Bind;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import tieorange.edu.realmdbtest.POJO.BookGoal;
+import tieorange.edu.realmdbtest.POJO.ReadingEntry;
+import tieorange.edu.realmdbtest.PojoHelper;
 import tieorange.edu.realmdbtest.R;
 
 public class ChartsActivity extends AppCompatActivity implements AddReadingEntryDialogFragment.AddReadingEntryDialogListener {
@@ -58,12 +62,30 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         RealmResults<BookGoal> bookGoalRealmResults = mMyRealm.where(BookGoal.class).findAll();
         if (bookGoalRealmResults.size() > 0) {
             mBookGoal = bookGoalRealmResults.get(0);
+            printAllReadingEntries();
+        } else {
+            Intent intent = new Intent(this, AddBookActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         }
     }
 
     private void setupTabIcons() {
         mUiTabLayout.getTabAt(0).setIcon(tabIcons[0]);
         mUiTabLayout.getTabAt(1).setIcon(tabIcons[1]);
+    }
+
+    // prints reading entries to log
+    private void printAllReadingEntries() {
+        // Reading entries from Realm
+        RealmResults<ReadingEntry> readingEntryRealmResults =
+                mMyRealm.where(ReadingEntry.class).findAll();
+        if (readingEntryRealmResults.isEmpty()) return;
+
+        for (ReadingEntry entry : readingEntryRealmResults) {
+            Log.d("MY", PojoHelper.getReadingEntryString(entry));
+        }
     }
 
     private void setupViewPager() {
