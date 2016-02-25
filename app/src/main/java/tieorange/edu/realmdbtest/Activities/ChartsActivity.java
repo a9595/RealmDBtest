@@ -49,7 +49,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
 
-        mUiView = (View) findViewById(android.R.id.content); // get's the root view of activity
+        mUiView = findViewById(android.R.id.content); // get's the root view of activity
         mUiViewPager = (ViewPager) findViewById(R.id.charts_viewpager);
         mUiTabLayout = (TabLayout) findViewById(R.id.charts_tab_layout);
 
@@ -107,7 +107,9 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
 
         if (id == R.id.action_add_reading_entry) {
             // TODO: show dialog
-            showEntryDialog();
+            if (mBookGoal != null) {
+                showEntryDialog();
+            }
         }
 
         return super.onOptionsItemSelected(item);
