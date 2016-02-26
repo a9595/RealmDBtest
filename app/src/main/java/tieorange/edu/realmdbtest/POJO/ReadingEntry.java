@@ -31,4 +31,5 @@ public class ReadingEntry extends RealmObject {
     }
 
 
+
 }

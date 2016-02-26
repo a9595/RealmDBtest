@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,9 +21,8 @@ import java.util.List;
 import butterknife.Bind;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import tieorange.edu.realmdbtest.DataHelpers.RealmHelper;
 import tieorange.edu.realmdbtest.POJO.BookGoal;
-import tieorange.edu.realmdbtest.POJO.ReadingEntry;
-import tieorange.edu.realmdbtest.PojoHelper;
 import tieorange.edu.realmdbtest.R;
 
 public class ChartsActivity extends AppCompatActivity implements AddReadingEntryDialogFragment.AddReadingEntryDialogListener {
@@ -66,7 +64,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
             printAllReadingEntries();
         } else {
             Intent intent = new Intent(this, AddBookActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // use can't go back
             startActivity(intent);
             finish();
         }
@@ -77,17 +75,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         mUiTabLayout.getTabAt(1).setIcon(tabIcons[1]);
     }
 
-    // prints reading entries to log
-    private void printAllReadingEntries() {
-        // Reading entries from Realm
-        RealmResults<ReadingEntry> readingEntryRealmResults =
-                mMyRealm.where(ReadingEntry.class).findAll();
-        if (readingEntryRealmResults.isEmpty()) return;
 
-        for (ReadingEntry entry : readingEntryRealmResults) {
-            Log.d("MY", PojoHelper.getReadingEntryString(entry));
-        }
-    }
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -134,29 +122,11 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
                 .setAction("Cancel", null)
                 .show();
 
-        createRealmReadingEntry(currentPage);
-    }
-
-    // Put the reading entry to DB
-    private void createRealmReadingEntry(int currentPage) {
-        mMyRealm.beginTransaction();
-
-        // Create an object
-        ReadingEntry readingEntry = mMyRealm.createObject(ReadingEntry.class);
-
-        readingEntry.setCurrentPage(currentPage);
-        readingEntry.setDate(new Date());
-
-        mMyRealm.commitTransaction();
+        RealmHelper.createRealmReadingEntry(currentPage, mMyRealm, new Date());
     }
 
 
-    public RealmResults<ReadingEntry> getReadingEntries2() {
-        RealmResults<ReadingEntry> readingEntryRealmResults =
-                mMyRealm.where(ReadingEntry.class).findAll();
 
-        return readingEntryRealmResults;
-    }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

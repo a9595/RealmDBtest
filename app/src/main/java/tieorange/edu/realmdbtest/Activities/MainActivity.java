@@ -17,7 +17,7 @@ import java.util.Date;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import tieorange.edu.realmdbtest.POJO.BookGoal;
-import tieorange.edu.realmdbtest.PojoHelper;
+import tieorange.edu.realmdbtest.POJOHelper;
 import tieorange.edu.realmdbtest.R;
 import tieorange.edu.realmdbtest.POJO.ReadingEntry;
 
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         if (readingEntryRealmResults.isEmpty()) return;
 
         for (ReadingEntry entry : readingEntryRealmResults) {
-            Log.d("MY", PojoHelper.getReadingEntryString(entry));
+            Log.d("MY", POJOHelper.getReadingEntryString(entry));
         }
 
         // set number picket to last page user read
