@@ -7,7 +7,6 @@ import java.util.Date;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import tieorange.edu.realmdbtest.POJO.ReadingEntry;
-import tieorange.edu.realmdbtest.POJOHelper;
 
 /**
  * Created by tieorange on 26/02/16.
@@ -26,7 +25,8 @@ public class RealmHelper {
         realm.commitTransaction();
     }
 
-    public RealmResults<ReadingEntry> getReadingEntries2(Realm realm) {
+    // Return all reading entries
+    public RealmResults<ReadingEntry> getReadingEntries(Realm realm) {
         RealmResults<ReadingEntry> readingEntryRealmResults =
                 realm.where(ReadingEntry.class).findAll();
 
@@ -34,7 +34,7 @@ public class RealmHelper {
     }
 
     // prints reading entries to log
-    private void printAllReadingEntries(Realm realm) {
+    public static void printAllReadingEntries(Realm realm) {
         // Reading entries from Realm
         RealmResults<ReadingEntry> readingEntryRealmResults =
                 realm.where(ReadingEntry.class).findAll();
@@ -44,4 +44,6 @@ public class RealmHelper {
             Log.d("MY", POJOHelper.getReadingEntryString(entry));
         }
     }
+
+
 }

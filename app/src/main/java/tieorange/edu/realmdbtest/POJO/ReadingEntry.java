@@ -14,6 +14,11 @@ public class ReadingEntry extends RealmObject {
     public ReadingEntry() {
     }
 
+    public ReadingEntry(int currentPage, Date date) {
+        this.currentPage = currentPage;
+        this.date = date;
+    }
+
     public int getCurrentPage() {
         return currentPage;
     }
@@ -29,7 +34,6 @@ public class ReadingEntry extends RealmObject {
     public void setDate(Date date) {
         this.date = date;
     }
-
 
 
 }

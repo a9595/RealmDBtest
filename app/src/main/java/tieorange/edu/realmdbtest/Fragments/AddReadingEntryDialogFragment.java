@@ -1,4 +1,4 @@
-package tieorange.edu.realmdbtest.Activities;
+package tieorange.edu.realmdbtest.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

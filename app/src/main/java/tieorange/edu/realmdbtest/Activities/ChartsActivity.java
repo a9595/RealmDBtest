@@ -17,12 +17,18 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import tieorange.edu.realmdbtest.DataHelpers.POJOHelper;
 import tieorange.edu.realmdbtest.DataHelpers.RealmHelper;
+import tieorange.edu.realmdbtest.Fragments.AddReadingEntryDialogFragment;
+import tieorange.edu.realmdbtest.Fragments.MonthFragment;
+import tieorange.edu.realmdbtest.Fragments.YearFragment;
 import tieorange.edu.realmdbtest.POJO.BookGoal;
+import tieorange.edu.realmdbtest.POJO.ReadingEntry;
 import tieorange.edu.realmdbtest.R;
 
 public class ChartsActivity extends AppCompatActivity implements AddReadingEntryDialogFragment.AddReadingEntryDialogListener {
@@ -61,13 +67,18 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         RealmResults<BookGoal> bookGoalRealmResults = mMyRealm.where(BookGoal.class).findAll();
         if (bookGoalRealmResults.size() > 0) {
             mBookGoal = bookGoalRealmResults.get(0);
-            printAllReadingEntries();
+            RealmHelper.printAllReadingEntries(mMyRealm);
         } else {
             Intent intent = new Intent(this, AddBookActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // use can't go back
             startActivity(intent);
             finish();
         }
+
+
+        final List<ReadingEntry> dummyEntriesList = POJOHelper.getDummyEntriesList();
+        final Map<Date, List<ReadingEntry>> groupedReadingEntries = POJOHelper.getGroupedReadingEntries(dummyEntriesList);
+        final int size = groupedReadingEntries.size();
     }
 
     private void setupTabIcons() {

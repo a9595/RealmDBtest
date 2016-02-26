@@ -1,4 +1,4 @@
-package tieorange.edu.realmdbtest.Activities;
+package tieorange.edu.realmdbtest.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

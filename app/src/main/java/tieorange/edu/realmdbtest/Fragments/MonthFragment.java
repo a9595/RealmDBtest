@@ -1,21 +1,16 @@
-package tieorange.edu.realmdbtest.Activities;
+package tieorange.edu.realmdbtest.Fragments;
 
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -31,7 +26,6 @@ import tieorange.edu.realmdbtest.R;
  * A simple {@link Fragment} subclass.
  */
 public class MonthFragment extends Fragment {
-    private BarChart mUiBarChart;
     private View mView;
     Random random = new Random();
     private LineChart mUiLineChart;
