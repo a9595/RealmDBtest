@@ -17,8 +17,13 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
+import tieorange.edu.realmdbtest.DataHelpers.POJOHelper;
+import tieorange.edu.realmdbtest.POJO.ReadingEntry;
 import tieorange.edu.realmdbtest.R;
 
 
@@ -78,15 +83,41 @@ public class MonthFragment extends Fragment {
         // create dataset:
         mUiLineChart = (LineChart) mView.findViewById(R.id.month_line_chart);
 
-        ArrayList<Entry> entries = new ArrayList<>();
-        ArrayList<String> labels = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            int pagesCount = random.nextInt(50);
-            entries.add(new Entry(pagesCount, i));
+        ArrayList<Entry> entries = new ArrayList<>(); // pagesCount are here
+        ArrayList<String> labels = new ArrayList<>(); //
+//        for (int i = 0; i < 7; i++) {
+//            int pagesCount = random.nextInt(50); // pages count (1 - 50 ) // TODO: pagesCount
+//            entries.add(new Entry(pagesCount, i));
+//
+//            // Defining the X-Axis Labels
+//            final String date = String.valueOf(i + 1);
+//            labels.add(date); // 1 - 30 // TODO: date
+//        }
 
-            // Defining the X-Axis Labels
-            labels.add(String.valueOf(i + 1));
+        // EXPERIMENT AREA. BE CAREFUL BITCH:
+//        for(int i = 0; i<groupedReadingEntries.size(); i++){
+//            int pagesCount = 0;
+//            groupedReadingEntries.e
+//        }
+
+        final Map<Date, List<ReadingEntry>> groupedReadingEntries = POJOHelper.getGroupedReadingEntries(POJOHelper.getDummyEntriesList());
+        int day = 0;
+        for (Map.Entry<Date, List<ReadingEntry>> entry : groupedReadingEntries.entrySet()) {
+            final List<ReadingEntry> dayReadingEntries = entry.getValue(); // all reading entries from 1 day
+            final ReadingEntry readingEntry = dayReadingEntries.get(dayReadingEntries.size() - 1); // last reading entry of the day (show only last chart)
+            final int currentPage = readingEntry.getCurrentPage();
+
+            entries.add(new Entry(currentPage, day));
+
+            day++;
+
+            labels.add(String.valueOf(day));
+
+
         }
+
+        // THE END OF EXPERIMENT
+
 
         LineDataSet dataSet = new LineDataSet(entries, "Pages per day");
         dataSet.setColors(ColorTemplate.PASTEL_COLORS);

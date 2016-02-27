@@ -32,6 +32,10 @@ public class POJOHelper {
         readingEntries.add(new ReadingEntry(1, parseDate("01.01.2016")));
         readingEntries.add(new ReadingEntry(10, parseDate("02.01.2016")));
         readingEntries.add(new ReadingEntry(15, parseDate("02.01.2016")));
+        readingEntries.add(new ReadingEntry(20, parseDate("03.01.2016")));
+        readingEntries.add(new ReadingEntry(40, parseDate("04.01.2016")));
+        readingEntries.add(new ReadingEntry(45, parseDate("04.01.2016")));
+
 
         return readingEntries;
     }
