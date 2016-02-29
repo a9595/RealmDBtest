@@ -39,7 +39,6 @@ public class MonthFragment extends Fragment {
     Random random = new Random();
     private LineChart mUiLineChart;
     private Realm mRealm;
-    private ChartsActivity chartsActivity;
     private ChartsActivity mActivity;
 
     public MonthFragment() {
@@ -120,18 +119,21 @@ public class MonthFragment extends Fragment {
 
         mUiLineChart.setData(lineData);
         mUiLineChart.setDescription("Per month");
-        mUiLineChart.animateXY(5000, 5000);
+        mUiLineChart.animateXY(2000, 2000);
 
         // set LIMIT LINE
-        LimitLine limitLine = new LimitLine(25f); // LIMIT LINE
+        int goal = mActivity.getBookGoal().getGoal();
+        LimitLine limitLine = new LimitLine(goal); // LIMIT LINE // TODO: set goal from realm
         limitLine.setLineColor(Color.GREEN);
+        limitLine.setLabel("Goal");
         limitLine.setLineWidth(2f);
         final YAxis axisLeft = mUiLineChart.getAxisLeft();
         axisLeft.addLimitLine(limitLine);
 
         mUiLineChart.invalidate();
     }
-    public void invalidateChart(){
+
+    public void invalidateChart() {
         mUiLineChart.invalidate();
 
     }

@@ -46,6 +46,8 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
     View mUiView;
 
     Realm mMyRealm;
+
+
     BookGoal mBookGoal;
 
     private int[] tabIcons = {
