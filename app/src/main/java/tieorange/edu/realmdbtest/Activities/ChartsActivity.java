@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.joda.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -137,6 +139,9 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         Snackbar.make(mUiView, message, Snackbar.LENGTH_LONG)
                 .setAction("Cancel", null)
                 .show();
+
+        final List<ReadingEntry> readingEntriesList = RealmHelper.getReadingEntriesList(mMyRealm);
+        Date lastEntryDay = readingEntriesList.get(readingEntriesList.size()-1).getDate();
 
         RealmHelper.createRealmReadingEntry(currentPage, new Date(), mMyRealm);
     }

@@ -3,6 +3,7 @@ package tieorange.edu.realmdbtest.DataHelpers;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -60,6 +61,14 @@ public class POJOHelper {
             }
         }
         return hashMap;
+    }
+
+    public static Date incrementByOneDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, 1);
+        final Date dateIncremented = calendar.getTime();
+        return dateIncremented;
     }
 
     public static Date parseDate(String date) {

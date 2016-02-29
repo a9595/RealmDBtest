@@ -104,9 +104,9 @@ public class MonthFragment extends Fragment {
             final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
             final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
             int currentPage = lastReadingEntry.getCurrentPage();
-            currentPage = currentPage - yesterdayPagesCount; // show the delta of today and yesterday pages on chart (progress)
+//            currentPage = currentPage - yesterdayPagesCount; // show the delta of today and yesterday pages on chart (progress)
 
-            entries.add(new Entry(currentPage, day)); // set pagesCount
+            entries.add(new Entry(currentPage - yesterdayPagesCount, day)); // set pagesCount
             yesterdayPagesCount = currentPage; // save yesterday pagesCount
             day++;
             labels.add(String.valueOf(day)); // set day
