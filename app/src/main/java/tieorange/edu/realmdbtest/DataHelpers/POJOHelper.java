@@ -43,11 +43,10 @@ public class POJOHelper {
         readingEntries.add(new ReadingEntry(40, parseDate("04.01.2016"))); // 4th group
         readingEntries.add(new ReadingEntry(45, parseDate("04.01.2016")));
 
-
         return readingEntries;
     }
 
-    public static Map<Date, List<ReadingEntry>> getGroupedReadingEntries(List<ReadingEntry> readingEntriesList) {
+    public static TreeMap<Date, List<ReadingEntry>> getGroupedReadingEntries(List<ReadingEntry> readingEntriesList) {
         TreeMap<Date, List<ReadingEntry>> hashMap = new TreeMap<>();
         for (ReadingEntry entry : readingEntriesList) {
             Date key = entry.getDate();
@@ -62,35 +61,6 @@ public class POJOHelper {
         }
         return hashMap;
     }
-    public void sortMap(){
-        HashMap<Integer, String> hmap = new HashMap<Integer, String>();
-        hmap.put(5, "A");
-        hmap.put(11, "C");
-        hmap.put(4, "Z");
-        hmap.put(77, "Y");
-        hmap.put(9, "P");
-        hmap.put(66, "Q");
-        hmap.put(0, "R");
-
-        System.out.println("Before Sorting:");
-        Set set = hmap.entrySet();
-        Iterator iterator = set.iterator();
-        while(iterator.hasNext()) {
-            Map.Entry me = (Map.Entry)iterator.next();
-            System.out.print(me.getKey() + ": ");
-            System.out.println(me.getValue());
-        }
-        Map<Integer, String> map = new TreeMap<Integer, String>(hmap);
-        System.out.println("After Sorting:");
-        Set set2 = map.entrySet();
-        Iterator iterator2 = set2.iterator();
-        while(iterator2.hasNext()) {
-            Map.Entry me2 = (Map.Entry)iterator2.next();
-            System.out.print(me2.getKey() + ": ");
-            System.out.println(me2.getValue());
-        }
-    }
-
 
     public static Date parseDate(String date) {
         try {

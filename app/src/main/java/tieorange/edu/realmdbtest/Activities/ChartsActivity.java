@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,7 +69,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         RealmResults<BookGoal> bookGoalRealmResults = mMyRealm.where(BookGoal.class).findAll();
         if (bookGoalRealmResults.size() > 0) {
             mBookGoal = bookGoalRealmResults.get(0);
-            RealmHelper.printAllReadingEntries(mMyRealm);
+            //RealmHelper.printAllReadingEntries(mMyRealm);
         } else {
             Intent intent = new Intent(this, AddBookActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // use can't go back
@@ -76,18 +77,17 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
             finish();
         }
 
-        final List<ReadingEntry> dummyEntriesList = POJOHelper.getDummyEntriesList();
+        // FOR DEBUG
+        final List<ReadingEntry> dummyEntriesList = RealmHelper.getReadingEntriesList(mMyRealm);
         final Map<Date, List<ReadingEntry>> groupedReadingEntries = POJOHelper.getGroupedReadingEntries(dummyEntriesList);
-
         Map<Date, List<ReadingEntry>> treeMap = new TreeMap<Date, List<ReadingEntry>>(groupedReadingEntries);
         final int size = treeMap.size();
-    }
 
-    private void setupTabIcons() {
-        mUiTabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        mUiTabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        //RealmHelper.removeAllRealmData(mMyRealm);
+        RealmHelper.printAllReadingEntries(mMyRealm);
+        //RealmHelper.createDummyRealmReadingEntries(mMyRealm);
+        Log.d("MY", "size = " + size);
     }
-
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -126,6 +126,10 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         return mBookGoal;
     }
 
+    public Realm getRealm() {
+        return mMyRealm;
+    }
+
     // User added reading entry from dialog
     @Override
     public void onFinishEntryDialog(int currentPage) {
@@ -134,7 +138,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
                 .setAction("Cancel", null)
                 .show();
 
-        RealmHelper.createRealmReadingEntry(currentPage, mMyRealm, new Date());
+        RealmHelper.createRealmReadingEntry(currentPage, new Date(), mMyRealm);
     }
 
 

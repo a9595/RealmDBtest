@@ -21,8 +21,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
+import io.realm.Realm;
+import tieorange.edu.realmdbtest.Activities.ChartsActivity;
 import tieorange.edu.realmdbtest.DataHelpers.POJOHelper;
+import tieorange.edu.realmdbtest.DataHelpers.RealmHelper;
 import tieorange.edu.realmdbtest.POJO.ReadingEntry;
 import tieorange.edu.realmdbtest.R;
 
@@ -34,6 +38,9 @@ public class MonthFragment extends Fragment {
     private View mView;
     Random random = new Random();
     private LineChart mUiLineChart;
+    private Realm mRealm;
+    private ChartsActivity chartsActivity;
+    private ChartsActivity mActivity;
 
     public MonthFragment() {
         // Required empty public constructor
@@ -43,6 +50,8 @@ public class MonthFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_month, container, false);
+        mActivity = (ChartsActivity) getActivity();
+        mRealm = mActivity.getRealm();
         // Inflate the layout for this fragment
 
         setupLineChart();
@@ -84,38 +93,25 @@ public class MonthFragment extends Fragment {
         mUiLineChart = (LineChart) mView.findViewById(R.id.month_line_chart);
 
         ArrayList<Entry> entries = new ArrayList<>(); // pagesCount are here
-        ArrayList<String> labels = new ArrayList<>(); //
-//        for (int i = 0; i < 7; i++) {
-//            int pagesCount = random.nextInt(50); // pages count (1 - 50 ) // TODO: pagesCount
-//            entries.add(new Entry(pagesCount, i));
-//
-//            // Defining the X-Axis Labels
-//            final String date = String.valueOf(i + 1);
-//            labels.add(date); // 1 - 30 // TODO: date
-//        }
+        ArrayList<String> labels = new ArrayList<>(); // day
 
-        // EXPERIMENT AREA. BE CAREFUL BITCH:
-//        for(int i = 0; i<groupedReadingEntries.size(); i++){
-//            int pagesCount = 0;
-//            groupedReadingEntries.e
-//        }
+        // TODO: get data from realm, not dummy
 
-        final Map<Date, List<ReadingEntry>> groupedReadingEntries = POJOHelper.getGroupedReadingEntries(POJOHelper.getDummyEntriesList());
+        final Map<Date, List<ReadingEntry>> groupedReadingEntries = RealmHelper.getGroupedReadingEntriesMap(mRealm);
         int day = 0;
+        int yesterdayPagesCount = 0; // pagesCount from previous day (n-1). Current day is "entry"
         for (Map.Entry<Date, List<ReadingEntry>> entry : groupedReadingEntries.entrySet()) {
-            final List<ReadingEntry> dayReadingEntries = entry.getValue(); // all reading entries from 1 day
-            final ReadingEntry readingEntry = dayReadingEntries.get(dayReadingEntries.size() - 1); // last reading entry of the day (show only last chart)
-            final int currentPage = readingEntry.getCurrentPage();
+            final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
+            final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
+            int currentPage = lastReadingEntry.getCurrentPage();
+            currentPage = currentPage - yesterdayPagesCount; // show the delta of today and yesterday pages on chart (progress)
 
-            entries.add(new Entry(currentPage, day));
-
+            entries.add(new Entry(currentPage, day)); // set pagesCount
+            yesterdayPagesCount = currentPage; // save yesterday pagesCount
             day++;
-
-            labels.add(String.valueOf(day));
-
+            labels.add(String.valueOf(day)); // set day
         }
 
-        // THE END OF EXPERIMENT
 
         LineDataSet dataSet = new LineDataSet(entries, "Pages per day");
         dataSet.setColors(ColorTemplate.PASTEL_COLORS);
