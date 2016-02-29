@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import butterknife.Bind;
 import io.realm.Realm;
@@ -75,17 +76,17 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
             finish();
         }
 
-
         final List<ReadingEntry> dummyEntriesList = POJOHelper.getDummyEntriesList();
         final Map<Date, List<ReadingEntry>> groupedReadingEntries = POJOHelper.getGroupedReadingEntries(dummyEntriesList);
-        final int size = groupedReadingEntries.size();
+
+        Map<Date, List<ReadingEntry>> treeMap = new TreeMap<Date, List<ReadingEntry>>(groupedReadingEntries);
+        final int size = treeMap.size();
     }
 
     private void setupTabIcons() {
         mUiTabLayout.getTabAt(0).setIcon(tabIcons[0]);
         mUiTabLayout.getTabAt(1).setIcon(tabIcons[1]);
     }
-
 
 
     private void setupViewPager() {
@@ -135,8 +136,6 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
 
         RealmHelper.createRealmReadingEntry(currentPage, mMyRealm, new Date());
     }
-
-
 
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

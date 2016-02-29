@@ -113,11 +113,9 @@ public class MonthFragment extends Fragment {
 
             labels.add(String.valueOf(day));
 
-
         }
 
         // THE END OF EXPERIMENT
-
 
         LineDataSet dataSet = new LineDataSet(entries, "Pages per day");
         dataSet.setColors(ColorTemplate.PASTEL_COLORS);
@@ -136,8 +134,6 @@ public class MonthFragment extends Fragment {
         axisLeft.addLimitLine(limitLine);
 
         mUiLineChart.invalidate();
-
-
     }
 
 
