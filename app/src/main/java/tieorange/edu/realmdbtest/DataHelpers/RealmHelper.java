@@ -65,6 +65,11 @@ public class RealmHelper {
 
     }
 
+    public static ReadingEntry getLastReadingEntry(Realm realm) {
+        final ReadingEntry last = getReadingEntriesRealmResults(realm).last();
+        return last;
+    }
+
     public static TreeMap<Date, List<ReadingEntry>> getGroupedReadingEntriesMap(Realm realm) {
         final List<ReadingEntry> readingEntriesList = getReadingEntriesList(realm);
         final TreeMap<Date, List<ReadingEntry>> groupedReadingEntries = POJOHelper.getGroupedReadingEntries(readingEntriesList);

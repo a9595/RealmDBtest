@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 
+import io.realm.Realm;
+import tieorange.edu.realmdbtest.Activities.ChartsActivity;
+import tieorange.edu.realmdbtest.DataHelpers.RealmHelper;
 import tieorange.edu.realmdbtest.R;
 
 /**
@@ -18,6 +21,8 @@ public class AddReadingEntryDialogFragment extends DialogFragment {
     public static final String BUNDLE_PAGES_COUNT = "pagesCount";
     private View mView;
     private NumberPicker mUiCurrentPage;
+    private ChartsActivity mActivity;
+    private Realm mRealm;
 
     public AddReadingEntryDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -38,6 +43,8 @@ public class AddReadingEntryDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        mActivity = (ChartsActivity) getActivity();
+        mRealm = mActivity.getRealm();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.what_s_current_page);
 
@@ -51,6 +58,13 @@ public class AddReadingEntryDialogFragment extends DialogFragment {
         mUiCurrentPage = (NumberPicker) mView.findViewById(R.id.dialog_entry_current_page);
         int pagesCount = getArguments().getInt(BUNDLE_PAGES_COUNT);
         mUiCurrentPage.setMaxValue(pagesCount);
+        int lastCurrentPage = 0;
+        try {
+            lastCurrentPage = RealmHelper.getLastReadingEntry(mRealm).getCurrentPage(); // TODO
+        } catch (Exception ex) {
+
+        }
+        mUiCurrentPage.setValue(lastCurrentPage);
 
         builder.setView(mView)
                 // Add action buttons

@@ -52,6 +52,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
             R.drawable.ic_charts,
             R.drawable.ic_app_icon_clock
     };
+    private MonthFragment mMonthFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,8 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MonthFragment(), "Month");
+        mMonthFragment = MonthFragment.newInstance("", "");
+        adapter.addFragment(mMonthFragment, "Month");
         adapter.addFragment(YearFragment.newInstance("", ""), "Year");
         mUiViewPager.setAdapter(adapter);
     }
@@ -140,10 +142,17 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
                 .setAction("Cancel", null)
                 .show();
 
+        // MOCK: every time user add new entry. it simulates a new day
         final List<ReadingEntry> readingEntriesList = RealmHelper.getReadingEntriesList(mMyRealm);
-        Date lastEntryDay = readingEntriesList.get(readingEntriesList.size()-1).getDate();
+        Date lastEntryDate = new Date();
+        try {
+            lastEntryDate = RealmHelper.getReadingEntriesRealmResults(mMyRealm).last().getDate();
+        } catch (Exception ex) {
+        }
+        Date lastEntryDateIncremented = POJOHelper.incrementByOneDay(lastEntryDate);
 
-        RealmHelper.createRealmReadingEntry(currentPage, new Date(), mMyRealm);
+        RealmHelper.createRealmReadingEntry(currentPage, lastEntryDateIncremented, mMyRealm); // create entry with new day (last + 1)
+        mMonthFragment.setupLineChart();
     }
 
 

@@ -88,7 +88,7 @@ public class MonthFragment extends Fragment {
 //        mUiBarChart.invalidate(); // refresh
 //    }
 
-    private void setupLineChart() {
+    public void setupLineChart() {
         // create dataset:
         mUiLineChart = (LineChart) mView.findViewById(R.id.month_line_chart);
 
@@ -130,6 +130,10 @@ public class MonthFragment extends Fragment {
         axisLeft.addLimitLine(limitLine);
 
         mUiLineChart.invalidate();
+    }
+    public void invalidateChart(){
+        mUiLineChart.invalidate();
+
     }
 
 
