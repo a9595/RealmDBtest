@@ -15,8 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.joda.time.LocalDateTime;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,17 +42,10 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
     @Bind(R.id.charts_viewpager)
     ViewPager mUiViewPager;
     View mUiView;
+    MonthFragment mMonthFragment;
 
-    Realm mMyRealm;
-
-
+    Realm mRealm;
     BookGoal mBookGoal;
-
-    private int[] tabIcons = {
-            R.drawable.ic_charts,
-            R.drawable.ic_app_icon_clock
-    };
-    private MonthFragment mMonthFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +57,14 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         mUiTabLayout = (TabLayout) findViewById(R.id.charts_tab_layout);
 
         setupViewPager();
-        //setupTabIcons();
         mUiTabLayout.setupWithViewPager(mUiViewPager);
 
-        // Realm:
-        mMyRealm = Realm.getInstance(this);
-        RealmResults<BookGoal> bookGoalRealmResults = mMyRealm.where(BookGoal.class).findAll();
+        // setup Realm:
+        mRealm = Realm.getDefaultInstance();
+        RealmResults<BookGoal> bookGoalRealmResults = mRealm.where(BookGoal.class).findAll();
         if (bookGoalRealmResults.size() > 0) {
             mBookGoal = bookGoalRealmResults.get(0);
-            //RealmHelper.printAllReadingEntries(mMyRealm);
+            //RealmHelper.printAllReadingEntries(mRealm);
         } else {
             Intent intent = new Intent(this, AddBookActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // use can't go back
@@ -83,14 +73,14 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         }
 
         // FOR DEBUG
-        final List<ReadingEntry> dummyEntriesList = RealmHelper.getReadingEntriesList(mMyRealm);
+        final List<ReadingEntry> dummyEntriesList = RealmHelper.getReadingEntriesList(mRealm);
         final Map<Date, List<ReadingEntry>> groupedReadingEntries = POJOHelper.getGroupedReadingEntries(dummyEntriesList);
         Map<Date, List<ReadingEntry>> treeMap = new TreeMap<Date, List<ReadingEntry>>(groupedReadingEntries);
         final int size = treeMap.size();
 
-        //RealmHelper.removeAllRealmData(mMyRealm);
-        RealmHelper.printAllReadingEntries(mMyRealm);
-        //RealmHelper.createDummyRealmReadingEntries(mMyRealm);
+        //RealmHelper.removeAllRealmData(mRealm);
+        RealmHelper.printAllReadingEntries(mRealm);
+        //RealmHelper.createDummyRealmReadingEntries(mRealm);
         Log.d("MY", "size = " + size);
     }
 
@@ -133,7 +123,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
     }
 
     public Realm getRealm() {
-        return mMyRealm;
+        return mRealm;
     }
 
     // User added reading entry from dialog
@@ -145,18 +135,23 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
                 .show();
 
         // MOCK: every time user add new entry. it simulates a new day
-        final List<ReadingEntry> readingEntriesList = RealmHelper.getReadingEntriesList(mMyRealm);
+        final List<ReadingEntry> readingEntriesList = RealmHelper.getReadingEntriesList(mRealm);
         Date lastEntryDate = new Date();
         try {
-            lastEntryDate = RealmHelper.getReadingEntriesRealmResults(mMyRealm).last().getDate();
+            lastEntryDate = RealmHelper.getReadingEntriesRealmResults(mRealm).last().getDate();
         } catch (Exception ex) {
         }
         Date lastEntryDateIncremented = POJOHelper.incrementByOneDay(lastEntryDate);
 
-        RealmHelper.createRealmReadingEntry(currentPage, lastEntryDateIncremented, mMyRealm); // create entry with new day (last + 1)
+        RealmHelper.createRealmBookGoal(currentPage, lastEntryDateIncremented, mRealm); // create entry with new day (last + 1)
         mMonthFragment.setupLineChart();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+    }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

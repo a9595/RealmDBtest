@@ -8,12 +8,13 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 import io.realm.Realm;
-import tieorange.edu.realmdbtest.POJO.BookGoal;
+import tieorange.edu.realmdbtest.DataHelpers.RealmHelper;
 import tieorange.edu.realmdbtest.R;
 
 public class AddBookActivity extends AppCompatActivity {
 
-    private Realm mMyRealm;
+    private Realm mRealm;
+
     private NumberPicker mUiNumberGoal;
     private NumberPicker mUiNumberPagesCount;
 
@@ -23,7 +24,8 @@ public class AddBookActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_book);
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-        mMyRealm = Realm.getInstance(this); // setup Realm
+
+        mRealm = Realm.getDefaultInstance();
 
         // Setup pages count
         mUiNumberPagesCount = (NumberPicker) findViewById(R.id.add_number_pages_count);
@@ -56,24 +58,14 @@ public class AddBookActivity extends AppCompatActivity {
 
     }
 
-    private void createRealmReadingEntry(int pagesCount, int goal) {
-        mMyRealm.beginTransaction();
 
-        BookGoal bookGoal = mMyRealm.createObject(BookGoal.class);
-
-        bookGoal.setPagesCount(pagesCount);
-        bookGoal.setGoal(goal);
-
-        mMyRealm.commitTransaction();
-
-    }
 
     public void SaveOnClick(View view) {
         int pagesCount = mUiNumberPagesCount.getValue();
         int goal = mUiNumberGoal.getValue();
 
         if (pagesCount > 0 && goal > 0) {
-            createRealmReadingEntry(pagesCount, goal);
+            RealmHelper.createRealmBookGoal(pagesCount, goal, mRealm);
         }
 
         Intent intent = new Intent(getApplicationContext(), ChartsActivity.class);

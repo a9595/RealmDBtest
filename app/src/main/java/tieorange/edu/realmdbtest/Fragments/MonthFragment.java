@@ -2,6 +2,7 @@ package tieorange.edu.realmdbtest.Fragments;
 
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,7 +37,6 @@ import tieorange.edu.realmdbtest.R;
  */
 public class MonthFragment extends Fragment {
     private View mView;
-    Random random = new Random();
     private LineChart mUiLineChart;
     private Realm mRealm;
     private ChartsActivity mActivity;
@@ -62,31 +62,6 @@ public class MonthFragment extends Fragment {
         return fragment;
     }
 
-//    private void setupBarChart() {
-//        // create dataset:
-//        mUiBarChart = (BarChart) mView.findViewById(R.id.month_bar_chart);
-//
-//        ArrayList<BarEntry> entries = new ArrayList<>();
-//        ArrayList<String> labels = new ArrayList<String>();
-//        for (int i = 0; i < 30; i++) {
-//            int pagesCount = random.nextInt(50);
-//            entries.add(new BarEntry(pagesCount, i));
-//
-//            // Defining the X-Axis Labels
-//            labels.add(String.valueOf(i + 1));
-//        }
-//        BarDataSet barDataSet = new BarDataSet(entries, "Прочитав сторінок за день");
-//        barDataSet.setColors(ColorTemplate.LIBERTY_COLORS);
-//
-//        BarData barData = new BarData(labels, barDataSet);
-//        mUiBarChart.setData(barData);
-//        mUiBarChart.setDescription("Скільки ти читаєш за місяць?");
-//        mUiBarChart.animateXY(5000, 5000);
-//
-//
-//        mUiBarChart.invalidate(); // refresh
-//    }
-
     public void setupLineChart() {
         // create dataset:
         mUiLineChart = (LineChart) mView.findViewById(R.id.month_line_chart);
@@ -103,9 +78,8 @@ public class MonthFragment extends Fragment {
             final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
             final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
             int currentPage = lastReadingEntry.getCurrentPage();
-//            currentPage = currentPage - yesterdayPagesCount; // show the delta of today and yesterday pages on chart (progress)
 
-            entries.add(new Entry(currentPage - yesterdayPagesCount, day)); // set pagesCount
+            entries.add(new Entry(currentPage - yesterdayPagesCount, day)); // set pagesCount,  show the delta of today and yesterday pages on chart (progress)
             yesterdayPagesCount = currentPage; // save yesterday pagesCount
             day++;
             labels.add(String.valueOf(day)); // set day

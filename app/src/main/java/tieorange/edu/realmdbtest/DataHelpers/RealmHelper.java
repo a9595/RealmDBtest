@@ -9,17 +9,17 @@ import java.util.TreeMap;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import tieorange.edu.realmdbtest.POJO.BookGoal;
 import tieorange.edu.realmdbtest.POJO.ReadingEntry;
 
 /**
  * Created by tieorange on 26/02/16.
  */
 public class RealmHelper {
-
     public static final String MY_TAG = "MY";
 
     // Put the reading entry to DB
-    public static void createRealmReadingEntry(int currentPage, Date date, Realm realm) {
+    public static void createRealmBookGoal(int currentPage, Date date, Realm realm) {
         realm.beginTransaction();
 
         // Create an object
@@ -43,7 +43,7 @@ public class RealmHelper {
     public static void createDummyRealmReadingEntries(Realm realm) {
         final List<ReadingEntry> dummyEntriesList = POJOHelper.getDummyEntriesList();
         for (ReadingEntry entry : dummyEntriesList) {
-            createRealmReadingEntry(entry.getCurrentPage(), entry.getDate(), realm);
+            createRealmBookGoal(entry.getCurrentPage(), entry.getDate(), realm);
         }
     }
 
@@ -65,11 +65,25 @@ public class RealmHelper {
 
     }
 
+    // Creates the goal user set to
+    public static void createRealmBookGoal(int pagesCount, int goal, Realm realm) {
+        realm.beginTransaction();
+
+        BookGoal bookGoal = realm.createObject(BookGoal.class);
+
+        bookGoal.setPagesCount(pagesCount);
+        bookGoal.setGoal(goal);
+
+        realm.commitTransaction();
+    }
+
+    // Return the very last reading entry user entered
     public static ReadingEntry getLastReadingEntry(Realm realm) {
         final ReadingEntry last = getReadingEntriesRealmResults(realm).last();
         return last;
     }
 
+    // Return all reading entries grouped by day (for chart)
     public static TreeMap<Date, List<ReadingEntry>> getGroupedReadingEntriesMap(Realm realm) {
         final List<ReadingEntry> readingEntriesList = getReadingEntriesList(realm);
         final TreeMap<Date, List<ReadingEntry>> groupedReadingEntries = POJOHelper.getGroupedReadingEntries(readingEntriesList);

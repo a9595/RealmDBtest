@@ -42,9 +42,20 @@ public class AddReadingEntryDialogFragment extends DialogFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mRealm.close();
+    }
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mActivity = (ChartsActivity) getActivity();
-        mRealm = mActivity.getRealm();
+        mRealm = Realm.getDefaultInstance();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.what_s_current_page);
 
@@ -72,7 +83,7 @@ public class AddReadingEntryDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         // TODO: add the reading entry to Realm
-                        addReadingEntry();
+                        addReadingEntry(mUiCurrentPage.getValue());
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -84,9 +95,9 @@ public class AddReadingEntryDialogFragment extends DialogFragment {
         return builder.create();
     }
 
-    private void addReadingEntry() {
+    private void addReadingEntry(int value) {
         // Return input from NumberPicker to activity through the implemented listener
         AddReadingEntryDialogListener listener = (AddReadingEntryDialogListener) getActivity();
-        listener.onFinishEntryDialog(mUiCurrentPage.getValue());
+        listener.onFinishEntryDialog(value);
     }
 }
