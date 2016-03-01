@@ -2,7 +2,6 @@ package tieorange.edu.realmdbtest.Fragments;
 
 
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,12 +20,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 
 import io.realm.Realm;
 import tieorange.edu.realmdbtest.Activities.ChartsActivity;
-import tieorange.edu.realmdbtest.DataHelpers.POJOHelper;
 import tieorange.edu.realmdbtest.DataHelpers.RealmHelper;
 import tieorange.edu.realmdbtest.POJO.ReadingEntry;
 import tieorange.edu.realmdbtest.R;
@@ -50,11 +46,17 @@ public class MonthFragment extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_month, container, false);
         mActivity = (ChartsActivity) getActivity();
-        mRealm = mActivity.getRealm();
+        mRealm = Realm.getDefaultInstance();
         // Inflate the layout for this fragment
 
         setupLineChart();
         return mView;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mRealm.close();
     }
 
     public static MonthFragment newInstance(String param1, String param2) {

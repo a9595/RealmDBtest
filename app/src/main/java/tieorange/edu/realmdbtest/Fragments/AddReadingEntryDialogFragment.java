@@ -42,11 +42,6 @@ public class AddReadingEntryDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
         mRealm.close();
@@ -71,9 +66,8 @@ public class AddReadingEntryDialogFragment extends DialogFragment {
         mUiCurrentPage.setMaxValue(pagesCount);
         int lastCurrentPage = 0;
         try {
-            lastCurrentPage = RealmHelper.getLastReadingEntry(mRealm).getCurrentPage(); // TODO
+            lastCurrentPage = RealmHelper.getLastReadingEntry(mRealm).getCurrentPage(); // get last current page user entered
         } catch (Exception ex) {
-
         }
         mUiCurrentPage.setValue(lastCurrentPage);
 
@@ -98,6 +92,9 @@ public class AddReadingEntryDialogFragment extends DialogFragment {
     private void addReadingEntry(int value) {
         // Return input from NumberPicker to activity through the implemented listener
         AddReadingEntryDialogListener listener = (AddReadingEntryDialogListener) getActivity();
+
+        // TODO: add validation ( value has to be > lastCurrentPage )
+
         listener.onFinishEntryDialog(value);
     }
 }
