@@ -1,5 +1,6 @@
 package tieorange.edu.realmdbtest.Activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -127,7 +129,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
 
     // User added reading entry from dialog
     @Override
-    public void onFinishEntryDialog(int currentPage) {
+    public void onFinishEntryDialog(int currentPage, Date date) {
         String message = "Current page = " + currentPage;
         Snackbar.make(mUiView, message, Snackbar.LENGTH_LONG)
                 .setAction("Cancel", null)
@@ -144,9 +146,9 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         // /MOCK
 
         // Real situation:
-        Date todayDateWithoutTime = POJOHelper.removeTime(new Date()); // create today's date without time (to group by date)
+        Date dateWithoutTime = POJOHelper.removeTime(date); // create today's date without time (to group by date)
 
-        RealmHelper.createRealmBookGoal(currentPage, todayDateWithoutTime, mRealm); // create entry with new day (last + 1)
+        RealmHelper.createRealmBookGoal(currentPage, dateWithoutTime, mRealm); // create entry with new day (last + 1)
         mMonthFragment.setupLineChart();
 
         RealmHelper.printAllReadingEntries(mRealm);

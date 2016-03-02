@@ -80,7 +80,10 @@ public class RealmHelper {
     // Return the very last reading entry user entered
     public static ReadingEntry getLastReadingEntry(Realm realm) {
         final ReadingEntry last = getReadingEntriesRealmResults(realm).last();
-        return last;
+        if (last != null)
+            return last;
+        else
+            return new ReadingEntry(0, POJOHelper.removeTime(new Date())); // return today's 0 reading entry
     }
 
     // Return all reading entries grouped by day (for chart)

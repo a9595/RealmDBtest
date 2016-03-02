@@ -13,10 +13,20 @@
     <NumberPicker
         android:id="@+id/dialog_entry_current_page"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants" />
+
+    <Button
+        android:id="@+id/dialog_entry_other_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/other_date" />
 
     <TextView
+        android:id="@+id/dialog_entry_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="" />
+
+
 </LinearLayout>

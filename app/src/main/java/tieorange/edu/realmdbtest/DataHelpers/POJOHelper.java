@@ -1,5 +1,7 @@
 package tieorange.edu.realmdbtest.DataHelpers;
 
+import android.widget.DatePicker;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,11 +83,28 @@ public class POJOHelper {
         return cal.getTime();
     }
 
+
     public static Date parseDate(String date) {
         try {
-            return new SimpleDateFormat("dd.mm.yyyy").parse(date);
+            return new SimpleDateFormat("dd.MM.yyyy").parse(date);
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    public static String getDateDayMonthYearString(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
+        return dateFormat.format(date);
+    }
+
+    public static Date getDateFromDatePicker(DatePicker datePicker){
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int year =  datePicker.getYear();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        return calendar.getTime();
     }
 }
