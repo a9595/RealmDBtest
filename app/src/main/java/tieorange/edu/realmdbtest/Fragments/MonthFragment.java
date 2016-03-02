@@ -59,7 +59,7 @@ public class MonthFragment extends Fragment {
         mRealm.close();
     }
 
-    public static MonthFragment newInstance(String param1, String param2) {
+    public static MonthFragment newInstance() {
         MonthFragment fragment = new MonthFragment();
         return fragment;
     }

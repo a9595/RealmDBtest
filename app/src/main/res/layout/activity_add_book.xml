@@ -60,7 +60,8 @@
                     <NumberPicker
                         android:id="@+id/add_number_pages_count"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:descendantFocusability="blocksDescendants" />
 
                 </LinearLayout>
 
@@ -84,7 +85,8 @@
                     <NumberPicker
                         android:id="@+id/add_number_goal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:descendantFocusability="blocksDescendants" />
 
                 </LinearLayout>
 

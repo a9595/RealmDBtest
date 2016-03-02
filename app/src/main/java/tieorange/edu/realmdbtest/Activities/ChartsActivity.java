@@ -81,14 +81,13 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         //RealmHelper.removeAllRealmData(mRealm);
         RealmHelper.printAllReadingEntries(mRealm);
         //RealmHelper.createDummyRealmReadingEntries(mRealm);
-        Log.d("MY", "size = " + size);
     }
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        mMonthFragment = MonthFragment.newInstance("", "");
+        mMonthFragment = MonthFragment.newInstance();
         adapter.addFragment(mMonthFragment, "Month");
-        adapter.addFragment(YearFragment.newInstance("", ""), "Year");
+        adapter.addFragment(YearFragment.newInstance(), "Year");
         mUiViewPager.setAdapter(adapter);
     }
 
@@ -135,16 +134,25 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
                 .show();
 
         // MOCK: every time user add new entry. it simulates a new day
-        final List<ReadingEntry> readingEntriesList = RealmHelper.getReadingEntriesList(mRealm);
-        Date lastEntryDate = new Date();
-        try {
-            lastEntryDate = RealmHelper.getReadingEntriesRealmResults(mRealm).last().getDate();
-        } catch (Exception ex) {
-        }
-        Date lastEntryDateIncremented = POJOHelper.incrementByOneDay(lastEntryDate);
+//        final List<ReadingEntry> readingEntriesList = RealmHelper.getReadingEntriesList(mRealm);
+//        Date lastEntryDate = new Date();
+//        try {
+//            lastEntryDate = RealmHelper.getReadingEntriesRealmResults(mRealm).last().getDate();
+//        } catch (Exception ex) {
+//        }
+//        Date lastEntryDateIncremented = POJOHelper.incrementByOneDay(lastEntryDate);
+        // /MOCK
 
-        RealmHelper.createRealmBookGoal(currentPage, lastEntryDateIncremented, mRealm); // create entry with new day (last + 1)
+        // Real situation:
+        Date todayDateWithoutTime = POJOHelper.removeTime(new Date()); // create today's date without time (to group by date)
+
+        RealmHelper.createRealmBookGoal(currentPage, todayDateWithoutTime, mRealm); // create entry with new day (last + 1)
         mMonthFragment.setupLineChart();
+
+        RealmHelper.printAllReadingEntries(mRealm);
+
+        final TreeMap<Date, List<ReadingEntry>> groupedReadingEntriesMap = RealmHelper.getGroupedReadingEntriesMap(mRealm);
+        groupedReadingEntriesMap.size();
     }
 
     @Override

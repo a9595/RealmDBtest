@@ -100,6 +100,8 @@ public class RealmHelper {
         for (ReadingEntry entry : readingEntryRealmResults) {
             Log.d(MY_TAG, POJOHelper.getReadingEntryString(entry));
         }
+
+        Log.d("MY", "size = " + readingEntryRealmResults.size());
     }
 
 

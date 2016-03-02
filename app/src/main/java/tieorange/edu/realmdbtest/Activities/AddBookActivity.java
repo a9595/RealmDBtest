@@ -31,6 +31,7 @@ public class AddBookActivity extends AppCompatActivity {
         mUiNumberPagesCount = (NumberPicker) findViewById(R.id.add_number_pages_count);
         mUiNumberPagesCount.setMinValue(0);
         mUiNumberPagesCount.setMaxValue(5000);
+        mUiNumberPagesCount.setValue(300); // TODO: set standard book pages count
         mUiNumberPagesCount.setWrapSelectorWheel(true);
         mUiNumberPagesCount.setOnValueChangedListener(new NumberPicker.
                 OnValueChangeListener() {
@@ -45,7 +46,8 @@ public class AddBookActivity extends AppCompatActivity {
         mUiNumberGoal = (NumberPicker) findViewById(R.id.add_number_goal);
         mUiNumberGoal.setMinValue(0);
         mUiNumberGoal.setMaxValue(100);
-        mUiNumberGoal.setWrapSelectorWheel(true);
+        mUiNumberGoal.setValue(10); // set goal for example
+//        mUiNumberGoal.setWrapSelectorWheel(true);
         mUiNumberGoal.setOnValueChangedListener(new NumberPicker.
                 OnValueChangeListener() {
             @Override
@@ -58,8 +60,6 @@ public class AddBookActivity extends AppCompatActivity {
 
     }
 
-
-
     public void SaveOnClick(View view) {
         int pagesCount = mUiNumberPagesCount.getValue();
         int goal = mUiNumberGoal.getValue();
@@ -69,6 +69,8 @@ public class AddBookActivity extends AppCompatActivity {
         }
 
         Intent intent = new Intent(getApplicationContext(), ChartsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
     }
 }

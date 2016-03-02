@@ -29,7 +29,7 @@ public class YearFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static YearFragment newInstance(String param1, String param2) {
+    public static YearFragment newInstance() {
         YearFragment fragment = new YearFragment();
         return fragment;
     }
