@@ -1,4 +1,4 @@
-package tieorange.edu.realmdbtest.DataHelpers;
+package tieorange.edu.realmdbtest.Helpers;
 
 import android.util.Log;
 

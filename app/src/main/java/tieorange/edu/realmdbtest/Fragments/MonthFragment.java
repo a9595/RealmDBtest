@@ -23,7 +23,8 @@ import java.util.Map;
 
 import io.realm.Realm;
 import tieorange.edu.realmdbtest.Activities.ChartsActivity;
-import tieorange.edu.realmdbtest.DataHelpers.RealmHelper;
+import tieorange.edu.realmdbtest.Helpers.ChartHelper;
+import tieorange.edu.realmdbtest.Helpers.RealmHelper;
 import tieorange.edu.realmdbtest.POJO.ReadingEntry;
 import tieorange.edu.realmdbtest.R;
 
@@ -68,8 +69,10 @@ public class MonthFragment extends Fragment {
         // create dataset:
         mUiLineChart = (LineChart) mView.findViewById(R.id.month_line_chart);
 
-        ArrayList<Entry> entries = new ArrayList<>(); // pagesCount are here
-        ArrayList<String> labels = new ArrayList<>(); // day
+//        ArrayList<Entry> entries =  ChartHelper.getChartEntriesList(mRealm); // pagesCount are here
+//        ArrayList<String> labels =  ChartHelper.getChartLabels(entries.size()); // day
+        ArrayList<Entry> entries =  new ArrayList<>(); // pagesCount are here
+        ArrayList<String> labels =  new ArrayList<>();// day
 
         // TODO: get data from realm, not dummy
 
@@ -87,9 +90,8 @@ public class MonthFragment extends Fragment {
             labels.add(String.valueOf(day)); // set day
         }
 
-
         LineDataSet dataSet = new LineDataSet(entries, "Pages per day");
-        dataSet.setColors(ColorTemplate.PASTEL_COLORS);
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
         LineData lineData = new LineData(labels, dataSet);
 
@@ -108,6 +110,7 @@ public class MonthFragment extends Fragment {
 
         mUiLineChart.invalidate();
     }
+
 
     public void invalidateChart() {
         mUiLineChart.invalidate();

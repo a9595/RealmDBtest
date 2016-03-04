@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 import io.realm.Realm;
-import tieorange.edu.realmdbtest.DataHelpers.RealmHelper;
+import tieorange.edu.realmdbtest.Helpers.RealmHelper;
 import tieorange.edu.realmdbtest.R;
 
 public class AddBookActivity extends AppCompatActivity {

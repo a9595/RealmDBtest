@@ -1,6 +1,5 @@
 package tieorange.edu.realmdbtest.Activities;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -11,11 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,8 +23,8 @@ import java.util.TreeMap;
 import butterknife.Bind;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import tieorange.edu.realmdbtest.DataHelpers.POJOHelper;
-import tieorange.edu.realmdbtest.DataHelpers.RealmHelper;
+import tieorange.edu.realmdbtest.Helpers.POJOHelper;
+import tieorange.edu.realmdbtest.Helpers.RealmHelper;
 import tieorange.edu.realmdbtest.Fragments.AddReadingEntryDialogFragment;
 import tieorange.edu.realmdbtest.Fragments.MonthFragment;
 import tieorange.edu.realmdbtest.Fragments.YearFragment;

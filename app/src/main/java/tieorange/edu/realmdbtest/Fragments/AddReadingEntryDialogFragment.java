@@ -19,8 +19,8 @@ import java.util.Date;
 
 import io.realm.Realm;
 import tieorange.edu.realmdbtest.Activities.ChartsActivity;
-import tieorange.edu.realmdbtest.DataHelpers.POJOHelper;
-import tieorange.edu.realmdbtest.DataHelpers.RealmHelper;
+import tieorange.edu.realmdbtest.Helpers.POJOHelper;
+import tieorange.edu.realmdbtest.Helpers.RealmHelper;
 import tieorange.edu.realmdbtest.R;
 
 /**

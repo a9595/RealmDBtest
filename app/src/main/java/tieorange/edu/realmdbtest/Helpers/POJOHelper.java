@@ -1,4 +1,4 @@
-package tieorange.edu.realmdbtest.DataHelpers;
+package tieorange.edu.realmdbtest.Helpers;
 
 import android.widget.DatePicker;
 
@@ -6,16 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import tieorange.edu.realmdbtest.POJO.BookGoal;
