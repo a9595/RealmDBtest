@@ -102,13 +102,14 @@ public class YearFragment extends Fragment {
         axisLeft.addLimitLine(limitLine);
 
 
-        // Scale (show only last 3 days)
-        int xvalcount = entries.size(); // just as an example, could be any amount of days
+        // Scale (show only last 7 days)
+        int xValuesCount = entries.size(); // amount of x-values
+        if (xValuesCount > 7) {
+            float scaleX = xValuesCount / 7f; // calculate scale
 
-// for weeks
-        float scaleX = xvalcount / 3f;
-
-        mUiBarChart.setScaleMinima(scaleX, 1f);
+            mUiBarChart.setScaleMinima(scaleX, 1f); // zoom to first 7 values
+            mUiBarChart.moveViewToX(xValuesCount); // move to the end of chart (show last vals)
+        }
 
         mUiBarChart.invalidate(); // refresh
     }

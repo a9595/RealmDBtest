@@ -79,7 +79,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         final int size = treeMap.size();
 
         //RealmHelper.removeAllRealmData(mRealm);
-        RealmHelper.createDummyRealmReadingEntries(mRealm);
+//        RealmHelper.createDummyRealmReadingEntries(mRealm);
         RealmHelper.printAllReadingEntries(mRealm);
     }
 

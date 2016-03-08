@@ -17,15 +17,10 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import io.realm.Realm;
 import tieorange.edu.realmdbtest.Activities.ChartsActivity;
 import tieorange.edu.realmdbtest.Helpers.ChartHelper;
-import tieorange.edu.realmdbtest.Helpers.RealmHelper;
-import tieorange.edu.realmdbtest.POJO.ReadingEntry;
 import tieorange.edu.realmdbtest.R;
 
 
@@ -107,6 +102,15 @@ public class MonthFragment extends Fragment {
         limitLine.setLineWidth(2f);
         final YAxis axisLeft = mUiLineChart.getAxisLeft();
         axisLeft.addLimitLine(limitLine);
+
+        // Scale last 7 days:
+        int xValuesCount = entries.size(); // amount of x-values
+        if (xValuesCount > 7) {
+            float scaleX = xValuesCount / 7f; // calculate scale
+
+            mUiLineChart.setScaleMinima(scaleX, 1f); // zoom to first 7 values
+            mUiLineChart.moveViewToX(xValuesCount); // move to the end of chart (show last vals)
+        }
 
         mUiLineChart.invalidate();
     }

@@ -56,6 +56,9 @@ public class ChartHelper {
         ArrayList<String> labels = new ArrayList<>(); // day
 
 //        entriesSize = 8; // TODO: mock
+        if (entriesSize < 7) // to show chart for
+            entriesSize = 7;
+
         for (int i = 1; i <= entriesSize; i++) {
             labels.add(String.valueOf(i));
         }
