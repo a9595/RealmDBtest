@@ -1,5 +1,6 @@
 package tieorange.edu.realmdbtest.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -29,6 +32,7 @@ public class YearFragment extends Fragment {
     private View mView;
     private Random mRandom = new Random();
     private Realm mRealm;
+    private ChartsActivity mActivity;
 
     public YearFragment() {
         // Required empty public constructor
@@ -45,12 +49,13 @@ public class YearFragment extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_year, container, false);
         mRealm = Realm.getDefaultInstance();
+        mActivity = (ChartsActivity) getActivity();
         setupBarChart();
 
         return mView;
     }
 
-    private void setupBarChart() {
+    public void setupBarChart() {
         // create dataset:
         mUiBarChart = (BarChart) mView.findViewById(R.id.year_bar_chart);
 
@@ -87,6 +92,23 @@ public class YearFragment extends Fragment {
         mUiBarChart.animateXY(2000, 2000);
         mUiBarChart.setClickable(false);
 
+        // set LIMIT Line
+        int goal = mActivity.getBookGoal().getGoal();
+        LimitLine limitLine = new LimitLine(goal);
+        limitLine.setLineColor(Color.GREEN);
+        limitLine.setLabel("Goal");
+        limitLine.setLineWidth(2f);
+        final YAxis axisLeft = mUiBarChart.getAxisLeft();
+        axisLeft.addLimitLine(limitLine);
+
+
+        // Scale (show only last 3 days)
+        int xvalcount = entries.size(); // just as an example, could be any amount of days
+
+// for weeks
+        float scaleX = xvalcount / 3f;
+
+        mUiBarChart.setScaleMinima(scaleX, 1f);
 
         mUiBarChart.invalidate(); // refresh
     }

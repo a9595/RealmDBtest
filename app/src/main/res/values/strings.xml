@@ -7,4 +7,6 @@
     <string name="what_s_your_current_page">What\'s your current page?</string>
     <string name="what_s_current_page">На котрій Ви зараз сторінці?</string>
     <string name="other_date">Інша дата</string>
+    <string name="line_chart">Лінії</string>
+    <string name="bar_chart">Стовпці</string>
 </resources>

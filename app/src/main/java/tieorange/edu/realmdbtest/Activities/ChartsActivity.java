@@ -45,6 +45,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
 
     Realm mRealm;
     BookGoal mBookGoal;
+    private YearFragment mYearFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,15 +79,17 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         final int size = treeMap.size();
 
         //RealmHelper.removeAllRealmData(mRealm);
+        RealmHelper.createDummyRealmReadingEntries(mRealm);
         RealmHelper.printAllReadingEntries(mRealm);
-        //RealmHelper.createDummyRealmReadingEntries(mRealm);
     }
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         mMonthFragment = MonthFragment.newInstance();
-        adapter.addFragment(mMonthFragment, "Month");
-        adapter.addFragment(YearFragment.newInstance(), "Year");
+        mYearFragment = YearFragment.newInstance();
+
+        adapter.addFragment(mMonthFragment, getString(R.string.line_chart));
+        adapter.addFragment(mYearFragment, getString(R.string.bar_chart));
         mUiViewPager.setAdapter(adapter);
     }
 
@@ -146,7 +149,10 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         Date dateWithoutTime = POJOHelper.removeTime(date); // create today's date without time (to group by date)
 
         RealmHelper.createRealmBookGoal(currentPage, dateWithoutTime, mRealm); // create entry with new day (last + 1)
+
+        // invalidate charts
         mMonthFragment.setupLineChart();
+        mYearFragment.setupBarChart();
 
         RealmHelper.printAllReadingEntries(mRealm);
 

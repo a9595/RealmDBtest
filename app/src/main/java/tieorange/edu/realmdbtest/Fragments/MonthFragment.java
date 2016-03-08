@@ -69,26 +69,26 @@ public class MonthFragment extends Fragment {
         // create dataset:
         mUiLineChart = (LineChart) mView.findViewById(R.id.month_line_chart);
 
-//        ArrayList<Entry> entries =  ChartHelper.getChartEntriesList(mRealm); // pagesCount are here
-//        ArrayList<String> labels =  ChartHelper.getChartLabels(entries.size()); // day
-        ArrayList<Entry> entries =  new ArrayList<>(); // pagesCount are here
-        ArrayList<String> labels =  new ArrayList<>();// day
+        ArrayList<Entry> entries =  ChartHelper.getChartEntriesList(mRealm); // pagesCount are here
+        ArrayList<String> labels =  ChartHelper.getChartLabels(entries.size()); // day
+//        ArrayList<Entry> entries =  new ArrayList<>(); // pagesCount are here
+//        ArrayList<String> labels =  new ArrayList<>();// day
 
-        // TODO: get data from realm, not dummy
-
-        final Map<Date, List<ReadingEntry>> groupedReadingEntries = RealmHelper.getGroupedReadingEntriesMap(mRealm);
-        int day = 0;
-        int yesterdayPagesCount = 0; // pagesCount from previous day (n-1). Current day is "entry"
-        for (Map.Entry<Date, List<ReadingEntry>> entry : groupedReadingEntries.entrySet()) {
-            final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
-            final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
-            int currentPage = lastReadingEntry.getCurrentPage();
-
-            entries.add(new Entry(currentPage - yesterdayPagesCount, day)); // set pagesCount,  show the delta of today and yesterday pages on chart (progress)
-            yesterdayPagesCount = currentPage; // save yesterday pagesCount
-            day++;
-            labels.add(String.valueOf(day)); // set day
-        }
+//        // TODO: get data from realm, not dummy
+//
+//        final Map<Date, List<ReadingEntry>> groupedReadingEntries = RealmHelper.getGroupedReadingEntriesMap(mRealm);
+//        int day = 0;
+//        int yesterdayPagesCount = 0; // pagesCount from previous day (n-1). Current day is "entry"
+//        for (Map.Entry<Date, List<ReadingEntry>> entry : groupedReadingEntries.entrySet()) {
+//            final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
+//            final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
+//            int currentPage = lastReadingEntry.getCurrentPage();
+//
+//            entries.add(new Entry(currentPage - yesterdayPagesCount, day)); // set pagesCount,  show the delta of today and yesterday pages on chart (progress)
+//            yesterdayPagesCount = currentPage; // save yesterday pagesCount
+//            day++;
+//            labels.add(String.valueOf(day)); // set day
+//        }
 
         LineDataSet dataSet = new LineDataSet(entries, "Pages per day");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);

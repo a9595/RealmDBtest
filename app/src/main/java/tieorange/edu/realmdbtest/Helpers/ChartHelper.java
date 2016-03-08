@@ -4,6 +4,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import tieorange.edu.realmdbtest.POJO.ReadingEntry;
  */
 public class ChartHelper {
 
+    // TODO: use template pattern to unite 2 methods in 1
     public static ArrayList<Entry> getChartEntriesList(Realm realm) {
         ArrayList<Entry> entries = new ArrayList<>();
         final TreeMap<Date, List<ReadingEntry>> groupedReadingEntries = RealmHelper.getGroupedReadingEntriesMap(realm);
@@ -26,9 +28,10 @@ public class ChartHelper {
             final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
             final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
             int currentPage = lastReadingEntry.getCurrentPage();
-            day++;
+
             entries.add(new Entry(currentPage - yesterdayPagesCount, day)); // set pagesCount,  show the delta of today and yesterday pages on chart (progress)
             yesterdayPagesCount = currentPage; // save yesterday pagesCount
+            day++;
         }
         return entries;
     }
@@ -42,9 +45,9 @@ public class ChartHelper {
             final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
             final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
             int currentPage = lastReadingEntry.getCurrentPage();
-            day++;
             entries.add(new BarEntry(currentPage - yesterdayPagesCount, day)); // set pagesCount,  show the delta of today and yesterday pages on chart (progress)
             yesterdayPagesCount = currentPage; // save yesterday pagesCount
+            day++;
         }
         return entries;
     }
@@ -52,6 +55,7 @@ public class ChartHelper {
     public static ArrayList<String> getChartLabels(int entriesSize) {
         ArrayList<String> labels = new ArrayList<>(); // day
 
+//        entriesSize = 8; // TODO: mock
         for (int i = 1; i <= entriesSize; i++) {
             labels.add(String.valueOf(i));
         }
