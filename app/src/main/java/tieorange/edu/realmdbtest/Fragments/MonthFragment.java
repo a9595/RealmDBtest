@@ -17,10 +17,14 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import tieorange.edu.realmdbtest.Activities.ChartsActivity;
 import tieorange.edu.realmdbtest.Helpers.ChartHelper;
+import tieorange.edu.realmdbtest.Helpers.MyValueFormatter;
+import tieorange.edu.realmdbtest.Helpers.RealmHelper;
+import tieorange.edu.realmdbtest.POJO.ReadingEntry;
 import tieorange.edu.realmdbtest.R;
 
 
@@ -64,8 +68,12 @@ public class MonthFragment extends Fragment {
         // create dataset:
         mUiLineChart = (LineChart) mView.findViewById(R.id.month_line_chart);
 
-        ArrayList<Entry> entries =  ChartHelper.getChartEntriesList(mRealm); // pagesCount are here
-        ArrayList<String> labels =  ChartHelper.getChartLabels(entries.size()); // day
+        ArrayList<Entry> entries = ChartHelper.getChartEntriesList(mRealm); // pagesCount are here
+
+        List<ReadingEntry> readingEntriesListLastEveryDay = RealmHelper.getReadingEntriesListLastEveryDay(mRealm);
+        ArrayList<String> labels = ChartHelper.getChartLabelsFromEntries(entries); // label - date
+//        ArrayList<String> labels = ChartHelper.getChartLabels(entries.size()); // day
+
 //        ArrayList<Entry> entries =  new ArrayList<>(); // pagesCount are here
 //        ArrayList<String> labels =  new ArrayList<>();// day
 
@@ -85,13 +93,14 @@ public class MonthFragment extends Fragment {
 //            labels.add(String.valueOf(day)); // set day
 //        }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Pages per day");
+        LineDataSet dataSet = new LineDataSet(entries, mActivity.getString(R.string.read_pages_per_day));
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
         LineData lineData = new LineData(labels, dataSet);
+        lineData.setValueFormatter(new MyValueFormatter()); // format to int values
 
         mUiLineChart.setData(lineData);
-        mUiLineChart.setDescription("Per month");
+//        mUiLineChart.setDescription("Per month");
         mUiLineChart.animateXY(2000, 2000);
 
         // set LIMIT LINE

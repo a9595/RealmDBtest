@@ -22,6 +22,7 @@ import java.util.Random;
 import io.realm.Realm;
 import tieorange.edu.realmdbtest.Activities.ChartsActivity;
 import tieorange.edu.realmdbtest.Helpers.ChartHelper;
+import tieorange.edu.realmdbtest.Helpers.MyValueFormatter;
 import tieorange.edu.realmdbtest.R;
 
 
@@ -67,7 +68,7 @@ public class YearFragment extends Fragment {
 //            entries.add(new BarEntry(pagesCount, i));
 //        }
 
-        BarDataSet barDataSet = new BarDataSet(entries, "Прочитав сторінок за місяць");
+        BarDataSet barDataSet = new BarDataSet(entries, mActivity.getString(R.string.read_pages_per_day));
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
 //        // Defining the X-Axis Labels
@@ -87,8 +88,10 @@ public class YearFragment extends Fragment {
 //        labels.add("NoData");
 
         BarData barData = new BarData(labels, barDataSet);
+        barData.setValueFormatter(new MyValueFormatter()); // format to int values
+
         mUiBarChart.setData(barData);
-        mUiBarChart.setDescription("Скільки ти читаєш за рік?");
+//        mUiBarChart.setDescription("Скільки ти читаєш за рік?");
         mUiBarChart.animateXY(2000, 2000);
         mUiBarChart.setClickable(false);
 

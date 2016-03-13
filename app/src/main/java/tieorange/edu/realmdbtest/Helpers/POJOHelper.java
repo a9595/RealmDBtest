@@ -96,6 +96,11 @@ public class POJOHelper {
         return dateFormat.format(date);
     }
 
+    public static String getDateDayMonthString(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM");
+        return dateFormat.format(date);
+    }
+
     public static Date getDateFromDatePicker(DatePicker datePicker){
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();

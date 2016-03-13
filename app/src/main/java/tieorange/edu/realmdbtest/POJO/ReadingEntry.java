@@ -1,5 +1,7 @@
 package tieorange.edu.realmdbtest.POJO;
 
+import org.joda.time.DateTime;
+
 import java.util.Date;
 
 import io.realm.RealmObject;
@@ -10,6 +12,8 @@ import io.realm.RealmObject;
 public class ReadingEntry extends RealmObject {
     private int currentPage;
     private Date date;
+//    private BookGoal bookGoal;
+//    private DateTime dateTime;
 
     public ReadingEntry() {
     }

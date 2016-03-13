@@ -9,4 +9,5 @@
     <string name="other_date">Інша дата</string>
     <string name="line_chart">Лінії</string>
     <string name="bar_chart">Стовпці</string>
+    <string name="read_pages_per_day">Прочитано сторінок за день</string>
 </resources>

@@ -2,9 +2,12 @@ package tieorange.edu.realmdbtest.Helpers;
 
 import android.util.Log;
 
+import com.github.mikephil.charting.data.BarEntry;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import io.realm.Realm;
@@ -105,6 +108,21 @@ public class RealmHelper {
         }
 
         Log.d("MY", "size = " + readingEntryRealmResults.size());
+    }
+
+
+
+    public static List<ReadingEntry> getReadingEntriesListLastEveryDay(Realm realm) {
+        List<ReadingEntry> readingEntries = new ArrayList<>();
+        final TreeMap<Date, List<ReadingEntry>> groupedReadingEntries = RealmHelper.getGroupedReadingEntriesMap(realm);
+        int day = 0;
+        int yesterdayPagesCount = 0; // pagesCount from previous day (n-1). Current day is "entry"
+        for (Map.Entry<Date, List<ReadingEntry>> entry : groupedReadingEntries.entrySet()) {
+            final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
+            final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
+            readingEntries.add(lastReadingEntry);
+        }
+        return readingEntries;
     }
 
 
