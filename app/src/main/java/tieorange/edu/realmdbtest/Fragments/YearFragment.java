@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -28,7 +27,7 @@ import tieorange.edu.realmdbtest.R;
 
 public class YearFragment extends Fragment {
     //    @Bind(R.id.bar_chart)
-    BarChart mUiBarChart;
+    private BarChart mUiBarChart;
 
     private View mView;
     private Random mRandom = new Random();

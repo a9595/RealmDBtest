@@ -42,7 +42,7 @@ public class AddReadingEntryDialogFragment extends DialogFragment implements Dat
     }
 
 
-    public void showDatePickerDialog() {
+    private void showDatePickerDialog() {
         // Get current date data
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month = Calendar.getInstance().get(Calendar.MONTH);

@@ -34,17 +34,14 @@ import tieorange.edu.realmdbtest.R;
 
 public class ChartsActivity extends AppCompatActivity implements AddReadingEntryDialogFragment.AddReadingEntryDialogListener {
 
-    @Bind(R.id.charts_toolbar)
     Toolbar mUiToolbar;
-    @Bind(R.id.charts_tab_layout)
-    TabLayout mUiTabLayout;
-    @Bind(R.id.charts_viewpager)
-    ViewPager mUiViewPager;
-    View mUiView;
-    MonthFragment mMonthFragment;
+    private TabLayout mUiTabLayout;
+    private ViewPager mUiViewPager;
+    private View mUiView;
+    private MonthFragment mMonthFragment;
 
-    Realm mRealm;
-    BookGoal mBookGoal;
+    private Realm mRealm;
+    private BookGoal mBookGoal;
     private YearFragment mYearFragment;
 
     @Override
@@ -75,8 +72,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         // FOR DEBUG
         final List<ReadingEntry> dummyEntriesList = RealmHelper.getReadingEntriesList(mRealm);
         final Map<Date, List<ReadingEntry>> groupedReadingEntries = POJOHelper.getGroupedReadingEntries(dummyEntriesList);
-        Map<Date, List<ReadingEntry>> treeMap = new TreeMap<Date, List<ReadingEntry>>(groupedReadingEntries);
-        final int size = treeMap.size();
+        Map<Date, List<ReadingEntry>> treeMap = new TreeMap<>(groupedReadingEntries);
 
         //RealmHelper.removeAllRealmData(mRealm);
 //        RealmHelper.createDummyRealmReadingEntries(mRealm);

@@ -29,6 +29,7 @@ public class AddBookActivity extends AppCompatActivity {
 
         // Setup pages count
         mUiNumberPagesCount = (NumberPicker) findViewById(R.id.add_number_pages_count);
+        assert mUiNumberPagesCount != null;
         mUiNumberPagesCount.setMinValue(0);
         mUiNumberPagesCount.setMaxValue(5000);
         mUiNumberPagesCount.setValue(300); // TODO: set standard book pages count
@@ -44,6 +45,7 @@ public class AddBookActivity extends AppCompatActivity {
 
         // Setup goal
         mUiNumberGoal = (NumberPicker) findViewById(R.id.add_number_goal);
+        assert mUiNumberGoal != null;
         mUiNumberGoal.setMinValue(0);
         mUiNumberGoal.setMaxValue(100);
         mUiNumberGoal.setValue(10); // set goal for example

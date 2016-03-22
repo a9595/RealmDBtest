@@ -81,7 +81,7 @@ public class POJOHelper {
     }
 
 
-    public static Date parseDate(String date) {
+    private static Date parseDate(String date) {
         try {
             return new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN).parse(date);
         } catch (ParseException e) {

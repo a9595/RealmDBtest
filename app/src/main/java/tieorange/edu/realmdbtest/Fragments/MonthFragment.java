@@ -60,17 +60,15 @@ public class MonthFragment extends Fragment {
     }
 
     public static MonthFragment newInstance() {
-        MonthFragment fragment = new MonthFragment();
-        return fragment;
+        return new MonthFragment();
     }
 
     public void setupLineChart() {
-        // create dataset:
+        // create data set:
         mUiLineChart = (LineChart) mView.findViewById(R.id.month_line_chart);
 
         ArrayList<Entry> entries = ChartHelper.getChartEntriesList(mRealm); // pagesCount are here
 
-        List<ReadingEntry> readingEntriesListLastEveryDay = RealmHelper.getReadingEntriesListLastEveryDay(mRealm);
         ArrayList<String> labels = ChartHelper.getChartLabelsFromEntries(mRealm); // label - date
 //        ArrayList<String> labels = ChartHelper.getChartLabels(entries.size()); // day
 
@@ -118,7 +116,7 @@ public class MonthFragment extends Fragment {
             float scaleX = xValuesCount / 7f; // calculate scale
 
             mUiLineChart.setScaleMinima(scaleX, 1f); // zoom to first 7 values
-            mUiLineChart.moveViewToX(xValuesCount); // move to the end of chart (show last vals)
+            mUiLineChart.moveViewToX(xValuesCount); // move to the end of chart (show last values)
         }
 
         mUiLineChart.invalidate();

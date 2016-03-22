@@ -10,7 +10,7 @@ import java.text.DecimalFormat;
  * Created by tieorange on 08/03/16.
  */
 public class MyValueFormatter implements ValueFormatter {
-    private DecimalFormat mFormat;
+    private final DecimalFormat mFormat;
 
     public MyValueFormatter() {
         mFormat = new DecimalFormat("###,###,##0"); // use one decimal

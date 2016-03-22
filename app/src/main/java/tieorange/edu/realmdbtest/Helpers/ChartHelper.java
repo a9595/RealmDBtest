@@ -8,11 +8,9 @@ import com.github.mikephil.charting.data.Entry;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 import io.realm.Realm;
-import tieorange.edu.realmdbtest.POJO.AndriiBook;
 import tieorange.edu.realmdbtest.POJO.ReadingEntry;
 
 /**

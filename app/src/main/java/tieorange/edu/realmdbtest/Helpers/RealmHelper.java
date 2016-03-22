@@ -2,8 +2,6 @@ package tieorange.edu.realmdbtest.Helpers;
 
 import android.util.Log;
 
-import com.github.mikephil.charting.data.BarEntry;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +17,7 @@ import tieorange.edu.realmdbtest.POJO.ReadingEntry;
  * Created by tieorange on 26/02/16.
  */
 public class RealmHelper {
-    public static final String MY_TAG = "MY";
+    private static final String MY_TAG = "MY";
 
     // Put the reading entry to DB
     public static void createRealmBookGoal(int currentPage, Date date, Realm realm) {
@@ -35,7 +33,7 @@ public class RealmHelper {
     }
 
     // Return all reading entries in RealmResults<>
-    public static RealmResults<ReadingEntry> getReadingEntriesRealmResults(Realm realm) {
+    private static RealmResults<ReadingEntry> getReadingEntriesRealmResults(Realm realm) {
 
         return realm.where(ReadingEntry.class).findAll();
     }
@@ -60,11 +58,6 @@ public class RealmHelper {
         return readingEntryList;
     }
 
-    public static void removeAllRealmData(Realm realm) {
-        final RealmResults<ReadingEntry> readingEntriesRealmResults = getReadingEntriesRealmResults(realm);
-        readingEntriesRealmResults.removeAll(readingEntriesRealmResults);
-
-    }
 
     // Creates the goal user set to
     public static void createRealmBookGoal(int pagesCount, int goal, Realm realm) {
@@ -95,8 +88,7 @@ public class RealmHelper {
     // Return all reading entries grouped by day (for chart)
     public static TreeMap<Date, List<ReadingEntry>> getGroupedReadingEntriesMap(Realm realm) {
         final List<ReadingEntry> readingEntriesList = getReadingEntriesList(realm);
-        final TreeMap<Date, List<ReadingEntry>> groupedReadingEntries = POJOHelper.getGroupedReadingEntries(readingEntriesList);
-        return groupedReadingEntries;
+        return POJOHelper.getGroupedReadingEntries(readingEntriesList);
     }
 
     // prints reading entries to log
