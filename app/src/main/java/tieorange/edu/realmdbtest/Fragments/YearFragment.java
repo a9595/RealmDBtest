@@ -40,8 +40,7 @@ public class YearFragment extends Fragment {
     }
 
     public static YearFragment newInstance() {
-        YearFragment fragment = new YearFragment();
-        return fragment;
+        return new YearFragment();
     }
 
 
@@ -60,9 +59,8 @@ public class YearFragment extends Fragment {
         // create dataset:
         mUiBarChart = (BarChart) mView.findViewById(R.id.year_bar_chart);
 
-
         ArrayList<BarEntry> entries = ChartHelper.getChartBarEntriesList(mRealm);
-        ArrayList<String> labels = ChartHelper.getChartLabels(entries.size());
+        ArrayList<String> labels = ChartHelper.getChartLabelsFromEntries(mRealm);
 //        for (int i = 0; i < 12; i++) {
 //            int pagesCount = mRandom.nextInt(200 - 20) + 20;
 //            entries.add(new BarEntry(pagesCount, i));

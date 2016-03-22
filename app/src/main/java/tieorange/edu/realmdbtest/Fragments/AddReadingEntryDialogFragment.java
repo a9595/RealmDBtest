@@ -27,7 +27,7 @@ import tieorange.edu.realmdbtest.R;
  * Created by tieorange on 21/02/16.
  */
 public class AddReadingEntryDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    public static final String BUNDLE_PAGES_COUNT = "pagesCount";
+    private static final String BUNDLE_PAGES_COUNT = "pagesCount";
     private View mView;
 
     private Button mUiBtnOtherDate;

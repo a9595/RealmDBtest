@@ -1,6 +1,5 @@
 package tieorange.edu.realmdbtest.POJO;
 
-import org.joda.time.DateTime;
 
 import java.util.Date;
 

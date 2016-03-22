@@ -71,7 +71,7 @@ public class MonthFragment extends Fragment {
         ArrayList<Entry> entries = ChartHelper.getChartEntriesList(mRealm); // pagesCount are here
 
         List<ReadingEntry> readingEntriesListLastEveryDay = RealmHelper.getReadingEntriesListLastEveryDay(mRealm);
-        ArrayList<String> labels = ChartHelper.getChartLabelsFromEntries(entries); // label - date
+        ArrayList<String> labels = ChartHelper.getChartLabelsFromEntries(mRealm); // label - date
 //        ArrayList<String> labels = ChartHelper.getChartLabels(entries.size()); // day
 
 //        ArrayList<Entry> entries =  new ArrayList<>(); // pagesCount are here

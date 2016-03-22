@@ -28,30 +28,33 @@ public class ChartHelper {
         final TreeMap<Date, List<ReadingEntry>> groupedReadingEntries = RealmHelper.getGroupedReadingEntriesMap(realm);
         int day = 0;
         int yesterdayPagesCount = 0; // pagesCount from previous day (n-1). Current day is "entry"
-        /*for (Map.Entry<Date, List<ReadingEntry>> entry : groupedReadingEntries.entrySet()) {
-            final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
-            final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
-            int currentPage = lastReadingEntry.getCurrentPage();
 
-            entries.add(new Entry(currentPage - yesterdayPagesCount, day)); // set pagesCount,  show the delta of today and yesterday pages on chart (progress)
-            yesterdayPagesCount = currentPage; // save yesterday pagesCount
-            day++;
-        }*/
+//        /*for (Map.Entry<Date, List<ReadingEntry>> entry : groupedReadingEntries.entrySet()) {
+//            final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
+//            final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
+//            int currentPage = lastReadingEntry.getCurrentPage();
+//
+//            entries.add(new Entry(currentPage - yesterdayPagesCount, day)); // set pagesCount,  show the delta of today and yesterday pages on chart (progress)
+//            yesterdayPagesCount = currentPage; // save yesterday pagesCount
+//            day++;
+//        }*/
 
         Date today = new Date();
 
         Log.i(TAG, "getChartEntriesList: today date = " + POJOHelper.getDateDayMonthYearString(today));
 
-        Date bookStartReadingDate = AndriiBook.getBookStartReadingDate(); //
+        Date bookStartReadingDate = RealmHelper.getFirstReadingEntryDate(realm);
+//        Date bookStartReadingDate = AndriiBook.getBookStartReadingDate(); //
+
         for (Date iteratedDate = bookStartReadingDate;
              iteratedDate.compareTo(today) <= 0;
-             iteratedDate = POJOHelper.incrementByOneDay(iteratedDate)){
+             iteratedDate = POJOHelper.incrementByOneDay(iteratedDate)) {
             boolean entryExistsAtIteratedDate = groupedReadingEntries.containsKey(iteratedDate);
 
             Log.i(TAG, "getChartEntriesList: day = " + day);
             Log.i(TAG, "getChartEntriesList: current iterated date = " + POJOHelper.getDateDayMonthYearString(iteratedDate));
 
-            if (entryExistsAtIteratedDate){
+            if (entryExistsAtIteratedDate) {
                 List<ReadingEntry> entriesOnIteratedDate = groupedReadingEntries.get(iteratedDate);
                 final ReadingEntry lastReadingEntry = entriesOnIteratedDate.get(entriesOnIteratedDate.size() - 1); // last reading entry of the day (show only last chart)
                 int currentPage = lastReadingEntry.getCurrentPage();
@@ -72,72 +75,105 @@ public class ChartHelper {
         final TreeMap<Date, List<ReadingEntry>> groupedReadingEntries = RealmHelper.getGroupedReadingEntriesMap(realm);
         int day = 0;
         int yesterdayPagesCount = 0; // pagesCount from previous day (n-1). Current day is "entry"
-        for (Map.Entry<Date, List<ReadingEntry>> entry : groupedReadingEntries.entrySet()) {
-            final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
-            final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
-            int currentPage = lastReadingEntry.getCurrentPage();
-            entries.add(new BarEntry(currentPage - yesterdayPagesCount, day)); // set pagesCount,  show the delta of today and yesterday pages on chart (progress)
-            yesterdayPagesCount = currentPage; // save yesterday pagesCount
+//        for (Map.Entry<Date, List<ReadingEntry>> entry : groupedReadingEntries.entrySet()) {
+//            final List<ReadingEntry> dayReadingEntriesList = entry.getValue(); // all reading entries from 1 day
+//            final ReadingEntry lastReadingEntry = dayReadingEntriesList.get(dayReadingEntriesList.size() - 1); // last reading entry of the day (show only last chart)
+//            int currentPage = lastReadingEntry.getCurrentPage();
+//            entries.add(new BarEntry(currentPage - yesterdayPagesCount, day)); // set pagesCount,  show the delta of today and yesterday pages on chart (progress)
+//            yesterdayPagesCount = currentPage; // save yesterday pagesCount
+//            day++;
+//        }
+
+
+        Date today = new Date();
+
+        Log.i(TAG, "getChartEntriesList: today date = " + POJOHelper.getDateDayMonthYearString(today));
+
+        Date bookStartReadingDate = RealmHelper.getFirstReadingEntryDate(realm);
+//        Date bookStartReadingDate = AndriiBook.getBookStartReadingDate(); //
+
+        for (Date iteratedDate = bookStartReadingDate;
+             iteratedDate.compareTo(today) <= 0;
+             iteratedDate = POJOHelper.incrementByOneDay(iteratedDate)) {
+            boolean entryExistsAtIteratedDate = groupedReadingEntries.containsKey(iteratedDate);
+
+            Log.i(TAG, "getChartEntriesList: day = " + day);
+            Log.i(TAG, "getChartEntriesList: current iterated date = " + POJOHelper.getDateDayMonthYearString(iteratedDate));
+
+            if (entryExistsAtIteratedDate) {
+                List<ReadingEntry> entriesOnIteratedDate = groupedReadingEntries.get(iteratedDate);
+                final ReadingEntry lastReadingEntry = entriesOnIteratedDate.get(entriesOnIteratedDate.size() - 1); // last reading entry of the day (show only last chart)
+                int currentPage = lastReadingEntry.getCurrentPage();
+                entries.add(new BarEntry(currentPage - yesterdayPagesCount, day));
+                yesterdayPagesCount = currentPage;
+            } else {
+                entries.add(new BarEntry(0, day));
+            }
+
             day++;
         }
+
         return entries;
     }
 
-    public static ArrayList<String> getChartLabels(int entriesSize) {
-        ArrayList<String> labels = new ArrayList<>(); // day
 
-//        entriesSize = 8; // TODO: mock
-        if (entriesSize < 7) // to show chart for
-            entriesSize = 7;
-
-        for (int i = 1; i <= entriesSize; i++) {
-//            labels.add(String.valueOf(i));
-            labels.add("3");
-        }
-        return labels;
-    }
-
-    public static ArrayList<String> getChartLabelsFromEntries(ArrayList<Entry> entries){
+    public static ArrayList<String> getChartLabelsFromEntries(Realm realm) {
         ArrayList<String> result = new ArrayList<>();
         Date today = new Date();
-        for (   Date iteratedDate = AndriiBook.getBookStartReadingDate();
-                iteratedDate.compareTo(today) <= 0;
-                iteratedDate = POJOHelper.incrementByOneDay(iteratedDate)) {
+        Date firstReadingEntryDate = RealmHelper.getFirstReadingEntryDate(realm);
+        for (Date iteratedDate = firstReadingEntryDate;
+             iteratedDate.compareTo(today) <= 0;
+             iteratedDate = POJOHelper.incrementByOneDay(iteratedDate)) {
 
             result.add(POJOHelper.getDateDayMonthString(iteratedDate));
         }
         return result;
     }
 
-    public static ArrayList<String> getChartLabelsWithDate(List<ReadingEntry> readingEntryList) {
-        ArrayList<String> labels = new ArrayList<>(); // day
-        int entriesSize = readingEntryList.size();
-//        entriesSize = 8; // TODO: mock
-//        if (entriesSize < 7) { // to show chart for
+//    public static ArrayList<String> getChartLabels(int entriesSize) {
+//        ArrayList<String> labels = new ArrayList<>(); // day
+//
+////        entriesSize = 8; // TODO: mock
+//        if (entriesSize < 7) // to show chart for
 //            entriesSize = 7;
+//
+//        for (int i = 1; i <= entriesSize; i++) {
+////            labels.add(String.valueOf(i));
+//            labels.add("3");
 //        }
+//        return labels;
+//    }
 
-        int readingEntriesSize = readingEntryList.size();
 
-        for (int i = 1; i <= entriesSize; i++) {
-            Date date = null;
-            if (i < readingEntriesSize) {
-                date = readingEntryList.get(i).getDate();
-                String dateDayMonthString = POJOHelper.getDateDayMonthString(date);
-                labels.add(dateDayMonthString);
-            } else {
-                if(date != null) {
-
-                    // increment date by one
-                    Date incrementedDate = POJOHelper.incrementByOneDay(date);
-                    // to string
-                    String dateIncremented;
-                    labels.add(String.valueOf(i));
-                }
-
-            }
-
-        }
-        return labels;
-    }
+//    public static ArrayList<String> getChartLabelsWithDate(List<ReadingEntry> readingEntryList) {
+//        ArrayList<String> labels = new ArrayList<>(); // day
+//        int entriesSize = readingEntryList.size();
+////        entriesSize = 8; // TODO: mock
+////        if (entriesSize < 7) { // to show chart for
+////            entriesSize = 7;
+////        }
+//
+//        int readingEntriesSize = readingEntryList.size();
+//
+//        for (int i = 1; i <= entriesSize; i++) {
+//            Date date = null;
+//            if (i < readingEntriesSize) {
+//                date = readingEntryList.get(i).getDate();
+//                String dateDayMonthString = POJOHelper.getDateDayMonthString(date);
+//                labels.add(dateDayMonthString);
+//            } else {
+//                if (date != null) {
+//
+//                    // increment date by one
+//                    Date incrementedDate = POJOHelper.incrementByOneDay(date);
+//                    // to string
+//                    String dateIncremented;
+//                    labels.add(String.valueOf(i));
+//                }
+//
+//            }
+//
+//        }
+//        return labels;
+//    }
 }

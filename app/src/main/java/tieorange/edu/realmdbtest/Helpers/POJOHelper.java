@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TreeMap;
 
 import tieorange.edu.realmdbtest.POJO.BookGoal;
@@ -43,8 +44,6 @@ public class POJOHelper {
         readingEntries.add(new ReadingEntry(89, parseDate("08.01.2016"))); // 8th group
 
 
-
-
         return readingEntries;
     }
 
@@ -68,8 +67,7 @@ public class POJOHelper {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, 1);
-        final Date dateIncremented = calendar.getTime();
-        return dateIncremented;
+        return calendar.getTime();
     }
 
     public static Date removeTime(Date date) {
@@ -85,26 +83,26 @@ public class POJOHelper {
 
     public static Date parseDate(String date) {
         try {
-            return new SimpleDateFormat("dd.MM.yyyy").parse(date);
+            return new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN).parse(date);
         } catch (ParseException e) {
             return null;
         }
     }
 
-    public static String getDateDayMonthYearString(Date date){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
+    public static String getDateDayMonthYearString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMAN);
         return dateFormat.format(date);
     }
 
-    public static String getDateDayMonthString(Date date){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM");
+    public static String getDateDayMonthString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM", Locale.GERMAN);
         return dateFormat.format(date);
     }
 
-    public static Date getDateFromDatePicker(DatePicker datePicker){
+    public static Date getDateFromDatePicker(DatePicker datePicker) {
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();
-        int year =  datePicker.getYear();
+        int year = datePicker.getYear();
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);

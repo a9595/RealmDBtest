@@ -36,10 +36,8 @@ public class RealmHelper {
 
     // Return all reading entries in RealmResults<>
     public static RealmResults<ReadingEntry> getReadingEntriesRealmResults(Realm realm) {
-        RealmResults<ReadingEntry> readingEntryRealmResults =
-                realm.where(ReadingEntry.class).findAll();
 
-        return readingEntryRealmResults;
+        return realm.where(ReadingEntry.class).findAll();
     }
 
     // MOCK: create dummy entries in realm
@@ -89,6 +87,11 @@ public class RealmHelper {
             return new ReadingEntry(0, POJOHelper.removeTime(new Date())); // return today's 0 reading entry
     }
 
+    // Return first day of reading entry (when user started to read a book)
+    public static Date getFirstReadingEntryDate(Realm realm) {
+        return getReadingEntriesListLastEveryDay(realm).get(0).getDate();
+    }
+
     // Return all reading entries grouped by day (for chart)
     public static TreeMap<Date, List<ReadingEntry>> getGroupedReadingEntriesMap(Realm realm) {
         final List<ReadingEntry> readingEntriesList = getReadingEntriesList(realm);
@@ -109,7 +112,6 @@ public class RealmHelper {
 
         Log.d("MY", "size = " + readingEntryRealmResults.size());
     }
-
 
 
     public static List<ReadingEntry> getReadingEntriesListLastEveryDay(Realm realm) {
