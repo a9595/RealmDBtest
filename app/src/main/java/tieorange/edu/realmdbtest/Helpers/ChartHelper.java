@@ -67,7 +67,7 @@ public class ChartHelper {
 
         return entries;
     }
-
+    
     public static ArrayList<BarEntry> getChartBarEntriesList(Realm realm) {
         ArrayList<BarEntry> entries = new ArrayList<>();
         final TreeMap<Date, List<ReadingEntry>> groupedReadingEntries = RealmHelper.getGroupedReadingEntriesMap(realm);

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -68,7 +69,6 @@ public class MonthFragment extends Fragment {
         mUiLineChart = (LineChart) mView.findViewById(R.id.month_line_chart);
 
         ArrayList<Entry> entries = ChartHelper.getChartEntriesList(mRealm); // pagesCount are here
-
         ArrayList<String> labels = ChartHelper.getChartLabelsFromEntries(mRealm); // label - date
 //        ArrayList<String> labels = ChartHelper.getChartLabels(entries.size()); // day
 

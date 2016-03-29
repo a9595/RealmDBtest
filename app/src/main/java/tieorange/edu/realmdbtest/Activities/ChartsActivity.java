@@ -1,6 +1,10 @@
 package tieorange.edu.realmdbtest.Activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,16 +17,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import butterknife.Bind;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import tieorange.edu.realmdbtest.Helpers.NotifyService;
 import tieorange.edu.realmdbtest.Helpers.POJOHelper;
 import tieorange.edu.realmdbtest.Helpers.RealmHelper;
 import tieorange.edu.realmdbtest.Fragments.AddReadingEntryDialogFragment;
@@ -43,6 +49,7 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
     private Realm mRealm;
     private BookGoal mBookGoal;
     private YearFragment mYearFragment;
+    private PendingIntent mPendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +76,8 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
             finish();
         }
 
+        setupSharePreferences();
+
         // FOR DEBUG
         final List<ReadingEntry> dummyEntriesList = RealmHelper.getReadingEntriesList(mRealm);
         final Map<Date, List<ReadingEntry>> groupedReadingEntries = POJOHelper.getGroupedReadingEntries(dummyEntriesList);
@@ -77,6 +86,39 @@ public class ChartsActivity extends AppCompatActivity implements AddReadingEntry
         //RealmHelper.removeAllRealmData(mRealm);
 //        RealmHelper.createDummyRealmReadingEntries(mRealm);
         RealmHelper.printAllReadingEntries(mRealm);
+    }
+
+    private void setupSharePreferences() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        String keyString = "numberOfLaunches";
+        int i = preferences.getInt(keyString, 1);
+        alarmMethod();
+        if (i <= 1) { // first launch
+            i++;
+            editor.putInt(keyString, i);
+            editor.commit();
+        }
+
+    }
+
+    private void alarmMethod() {
+        Intent notificationIntent = new Intent(this, NotifyService.class);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        mPendingIntent = PendingIntent.getService(this, 0, notificationIntent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.AM_PM, Calendar.AM);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60 * 60 * 24 // 24hours
+                , mPendingIntent);
+
+        Toast.makeText(this, "Alarm seted UP :)", Toast.LENGTH_LONG);
     }
 
     private void setupViewPager() {
